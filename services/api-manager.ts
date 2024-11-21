@@ -18,8 +18,10 @@ export class ApiManager {
             },
         });
 
-        // Load token from local storage
-        this.token = localStorage.getItem('token');
+        // Load token from local storage only in the browser
+        if (typeof window !== 'undefined') {
+            this.token = localStorage.getItem('token');
+        }
 
         this.api.interceptors.request.use((config) => {
             if (this.token) {
@@ -36,11 +38,13 @@ export class ApiManager {
 
     setToken(token: string) {
         this.token = token;
-        localStorage.setItem('token', token);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('token', token);
+        }
     }
 
     getCurrentUser(): User | null {
-        return this.me
+        return this.me;
     }
 
     // User endpoints
@@ -79,10 +83,12 @@ export class ApiManager {
         const response = await this.api.get<Template[]>(`/users/${userId}/templates/`);
         return response.data;
     }
+
     async getTemplate(templateId: number): Promise<Template> {
         const response = await this.api.get<Template>(`/templates/${templateId}/`);
         return response.data;
     }
+
     async updateTemplate(templateId: number, templateData: Partial<Template>): Promise<User> {
         const response = await this.api.put<User>(`/templates/${templateId}`, templateData);
         return response.data;
@@ -121,8 +127,10 @@ export class ApiManager {
 
     async getMe(): Promise<User> {
         const response = await this.api.get<User>('/users/me');
-        localStorage.setItem('role', response.data.role)
-        this.me = response.data
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('role', response.data.role);
+        }
+        this.me = response.data;
         return response.data;
     }
 }
