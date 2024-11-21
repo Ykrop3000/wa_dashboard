@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import {
     Card,
-    CardHeader,
     Text,
-    Divider,
     Label,
     Spinner,
     makeStyles,
@@ -39,7 +37,6 @@ const useStyles = makeStyles({
 export default function TemplateDetail() {
     const styles = useStyles();
     const params = useParams();
-    const router = useRouter();
     const [template, setTemplate] = useState<Partial<Template>>({});
     const [isEditing, setEditing] = useState<boolean>(false)
     const [loading, setLoading] = useState(true);
@@ -50,7 +47,7 @@ export default function TemplateDetail() {
             try {
                 const template = await apiManager.getTemplate(Number(params.template_id));
                 setTemplate(template);
-            } catch (err) {
+            } catch {
                 setError('An error occurred while fetching template data');
             } finally {
                 setLoading(false);

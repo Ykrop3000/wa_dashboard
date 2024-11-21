@@ -38,15 +38,19 @@ const Login: React.FC = () => {
         setError(null);
 
         try {
-            const response = await apiManager.login(username, password);
+            await apiManager.login(username, password);
             const user = await apiManager.getMe();
             if (user.role == 'admin') {
                 router.push('/client');
             } else {
                 router.push('/dashboard');
             }
-        } catch (err: any) {
-            setError(err.message || 'Login failed');
+        } catch (err: unknown) {
+            if (typeof err === 'object' && err !== null && 'message' in err) {
+                setError((err as { message: string }).message || 'Login failed');
+            } else {
+                setError('Login failed');
+            }
         } finally {
             setLoading(false);
         }

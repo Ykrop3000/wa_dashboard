@@ -6,9 +6,6 @@ import {
     Button,
     Input,
     Field,
-    Card,
-    Label,
-    Textarea,
     makeStyles,
     shorthands,
 } from '@fluentui/react-components';
@@ -98,7 +95,7 @@ const CreateClientPage: React.FC = () => {
         }
 
         try {
-            const user = apiManager.createUser(formData)
+            apiManager.createUser(formData)
 
             // Redirect back to clients list after successful creation
             router.push('/client');

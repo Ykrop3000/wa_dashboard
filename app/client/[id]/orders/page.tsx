@@ -12,7 +12,6 @@ import {
     TableColumnDefinition,
     createTableColumn,
     Button,
-    Badge,
 } from '@fluentui/react-components';
 import { apiManager } from '@/services';
 import { Order } from '@/types/order';
@@ -49,7 +48,6 @@ const OrdersPage: React.FC = () => {
     };
 
     // Calculate total pages based on the total number of orders
-    const totalPages = Math.ceil(orders.length / itemsPerPage);
 
     const columns: TableColumnDefinition<Order>[] = [
         createTableColumn<Order>({

@@ -37,7 +37,7 @@ export default function RootLayout({
     };
 
     fetchUser();
-  }, [apiManager, apiManager.me]);
+  }, [apiManager]);
 
   return (
     <html>

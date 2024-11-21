@@ -161,7 +161,7 @@ const ClientDashboard: React.FC = () => {
         const selectedIds = Array.from(selectedItems).map(Number);
         try {
             console.log('Stopping clients:', selectedIds);
-            for (let selectedId of selectedIds) {
+            for (const selectedId of selectedIds) {
                 const user = users[selectedId];
                 const fetchedUser = await apiManager.getUser(user.id);
                 fetchedUser.disable = true;

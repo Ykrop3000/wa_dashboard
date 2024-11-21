@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
-    Card,
-    CardHeader,
     Text,
-    Label,
-    Spinner,
     makeStyles,
     Button,
 } from '@fluentui/react-components';
@@ -34,10 +29,9 @@ const useStyles = makeStyles({
 export default function BackButtonLayout({ children, title
 }: {
     children: React.ReactNode,
-    title: String
+    title: string
 }) {
     const styles = useStyles();
-    const params = useParams();
     const router = useRouter();
 
     return (

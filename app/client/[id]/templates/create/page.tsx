@@ -6,8 +6,6 @@ import {
     Button,
     Input,
     Field,
-    Card,
-    Label,
     Textarea,
     makeStyles,
     shorthands,
@@ -83,7 +81,7 @@ const CreateClientPage: React.FC = () => {
         }
 
         try {
-            const template = apiManager.createTemplate(Number(params.id), formData)
+            await apiManager.createTemplate(Number(params.id), formData)
 
             // Redirect back to clients list after successful creation
             router.push(`/client/${params.id}/templates`);

@@ -7,7 +7,6 @@ import {
     Card,
     CardHeader,
     Text,
-    Divider,
     Label,
     Spinner,
     makeStyles,
@@ -50,7 +49,7 @@ export default function UserDetail() {
             try {
                 const user = await apiManager.getUser(Number(params.id));
                 setUser(user);
-            } catch (err) {
+            } catch {
                 setError('An error occurred while fetching user data');
             } finally {
                 setLoading(false);

@@ -18,7 +18,7 @@ const SwitchableInput: React.FC<{
 }> = ({ initialValue, onChange, name, isEditing, isBoolean, isTextarea, inputType = 'text', }) => {
     const [value, setValue] = useState(initialValue);
 
-    const handleChnage = (value: any) => {
+    const handleChnage = (value: string | boolean | number) => {
         setValue(value)
         onChange(name, value)
     }

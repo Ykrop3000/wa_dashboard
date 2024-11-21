@@ -12,7 +12,6 @@ import {
     TableColumnDefinition,
     createTableColumn,
     Button,
-    Badge,
 } from '@fluentui/react-components';
 import { apiManager } from '@/services';
 import { Template } from '@/types/template';
