@@ -178,7 +178,7 @@ const ClientDashboard: React.FC = () => {
         const selectedIds = Array.from(selectedItems).map(Number);
         try {
             console.log('Removing clients:', selectedIds);
-            for (let selectedId of selectedIds) {
+            for (const selectedId of selectedIds) {
                 const userId = users[selectedId].id;
                 await apiManager.deleteUser(userId);
                 setUsers(users.filter(i => i.id != userId));
@@ -193,7 +193,7 @@ const ClientDashboard: React.FC = () => {
         const selectedIds = Array.from(selectedItems).map(Number);
         try {
             console.log('Starting clients:', selectedIds);
-            for (let selectedId of selectedIds) {
+            for (const selectedId of selectedIds) {
                 const user = users[selectedId];
                 const fetchedUser = await apiManager.getUser(user.id);
                 fetchedUser.disable = false; // Enable the user
