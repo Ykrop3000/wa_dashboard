@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { apiManager } from '@/services';
 import {
   makeStyles,
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const styles = useStyles();
-
+  const router = useRouter();
   const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export default function RootLayout({
         console.error('Error fetching user:', error);
         apiManager.removeToken();
         apiManager.setCurrentUser(null);
+        router.push('/login')
       }
     };
 
