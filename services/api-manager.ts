@@ -36,15 +36,26 @@ export class ApiManager {
         });
     }
 
+
     setToken(token: string) {
         this.token = token;
         if (typeof window !== 'undefined') {
             localStorage.setItem('token', token);
         }
     }
+    removeToken() {
+        this.token = null;
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('token')
+        }
+    }
 
     getCurrentUser(): User | null {
         return this.me;
+    }
+
+    setCurrentUser(user: User | null) {
+        this.me = user
     }
 
     // User endpoints

@@ -33,6 +33,8 @@ export default function RootLayout({
         setUsername(user.username);
       } catch (error) {
         console.error('Error fetching user:', error);
+        apiManager.removeToken();
+        apiManager.setCurrentUser(null);
       }
     };
 
