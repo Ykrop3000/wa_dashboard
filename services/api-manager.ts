@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { redirect } from 'next/navigation';
+import { FormContextType, RJSFSchema } from '@rjsf/utils';
 
 import { User } from '@/types/user';
 import { Order } from '@/types/order';
@@ -59,13 +60,18 @@ export class ApiManager {
     }
 
     // User endpoints
-    async createUser(userData: Omit<User, 'id'>): Promise<User> {
+    async createUser(userData: FormContextType): Promise<User> {
         const response = await this.api.post<User>('/users/', userData);
         return response.data;
     }
 
     async getUsers(skip = 0, limit = 100): Promise<User[]> {
         const response = await this.api.get<User[]>(`/users/?skip=${skip}&limit=${limit}`);
+        return response.data;
+    }
+
+    async getUserSchema(): Promise<RJSFSchema> {
+        const response = await this.api.get<RJSFSchema>(`/users/schema`);
         return response.data;
     }
 

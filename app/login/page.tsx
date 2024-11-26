@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiManager } from '@/services'; // Adjust the import path as necessary
 import { Button, Input, Card, CardHeader, Label, Text } from '@fluentui/react-components';
 import { makeStyles } from '@fluentui/react-components'; // Import makeStyles
+import { useAuth } from '@/context/AuthContext'; // Import useAuth
 
 const useStyles = makeStyles({
     container: {
@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 const Login: React.FC = () => {
     const classes = useStyles(); // Use the styles
     const router = useRouter();
+    const { login } = useAuth(); // Get login function from context
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -38,9 +38,10 @@ const Login: React.FC = () => {
         setError(null);
 
         try {
-            await apiManager.login(username, password);
-            const user = await apiManager.getMe();
-            if (user.role == 'admin') {
+            await login(username, password); // Use the login function from context
+            // After successful login, redirect based on user role
+            const user = await login(username, password);
+            if (user.role === 'admin') {
                 router.push('/client');
             } else {
                 router.push('/dashboard');
@@ -60,10 +61,10 @@ const Login: React.FC = () => {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
 
-        if (token && role == 'admin') {
-            router.push('/client')
+        if (token && role === 'admin') {
+            router.push('/client');
         }
-    }, [])
+    }, []);
 
     return (
         <div className={classes.container}>
