@@ -2,11 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-    Button,
-    makeStyles,
-    shorthands,
-} from '@fluentui/react-components';
+
 import { withTheme } from '@rjsf/core';
 import { RJSFSchema, FormContextType } from '@rjsf/utils';
 import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
@@ -14,43 +10,19 @@ import validator from '@rjsf/validator-ajv8';
 
 
 import { apiManager } from '@/services'
-
-const useStyles = makeStyles({
-    container: {
-        maxWidth: '600px',
-        margin: '0 auto',
-        ...shorthands.padding('20px'),
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-    },
-    header: {
-        fontSize: '24px',
-        fontWeight: '600',
-        marginBottom: '20px',
-    },
-    actions: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        gap: '12px',
-        marginTop: '20px',
-    },
-    field: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-    }
-});
+import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
+import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 
 
 const CreateClientPage: React.FC = () => {
 
     const Form = withTheme(FluentUIRCTheme);
-    const styles = useStyles();
     const router = useRouter();
     const [schema, setSchema] = useState<RJSFSchema>({});
+
+    const uiSchema = {
+        "ui:options": { label: false }
+    }
 
     useEffect(() => {
         const fetchSchema = async () => {
@@ -74,20 +46,20 @@ const CreateClientPage: React.FC = () => {
         }
     };
 
+
     return (
-        <div className={styles.container}>
-            <div>
-                <h1>Create New Client</h1>
-                <Form
-                    schema={schema}
-                    onSubmit={(data, e) => handleSubmit(data, e)}
-                    validator={validator}
+        <BackButtonLayout title="Create user">
+            <Form
+                schema={schema}
+                onSubmit={(data, e) => handleSubmit(data, e)}
+                validator={validator}
                 // widgets={widgets}
-                // uiSchema={uiSchema}
-                />
-                <Button onClick={() => router.push('/client')}>Cancel</Button>
-            </div>
-        </div>
+                uiSchema={uiSchema}
+                templates={{
+                    ObjectFieldTemplate: ObjectFieldTemplateWrapper
+                }}
+            />
+        </BackButtonLayout>
     );
 };
 

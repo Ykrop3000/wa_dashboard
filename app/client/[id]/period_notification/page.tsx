@@ -13,11 +13,12 @@ import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTempla
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 
 
-const CreateTemplatePage: React.FC = () => {
+
+const CreatePeriodNotificationPage: React.FC = () => {
 
     const Form = withTheme(FluentUIRCTheme);
     const router = useRouter();
-    const params = useParams()
+    const params = useParams();
     const [schema, setSchema] = useState<RJSFSchema>({});
 
     const uiSchema = {
@@ -28,10 +29,10 @@ const CreateTemplatePage: React.FC = () => {
     useEffect(() => {
         const fetchSchema = async () => {
             try {
-                const schema = await apiManager.getTemplateSchema();
+                const schema = await apiManager.getTemplateNotifiSchema();
                 setSchema(schema);
             } catch (error) {
-                console.error('Error creating template:', error);
+                console.error('Error creating template notifi:', error);
             }
         };
         fetchSchema();
@@ -40,16 +41,16 @@ const CreateTemplatePage: React.FC = () => {
     const handleSubmit = async (data: FormContextType, e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await apiManager.createTemplate(Number(params.id), data.formData);
-            router.push(`/client/${params.id}/templates`);
+            await apiManager.createTemplatePeriodNotification(Number(params.id), data.formData);
+            router.push(`/client/${params.id}`);
         } catch (error) {
-            console.error('Error creating template:', error);
+            console.error('Error creating client:', error);
         }
     };
 
 
     return (
-        <BackButtonLayout title='Create template'>
+        <BackButtonLayout title="Create period notification">
             <Form
                 schema={schema}
                 onSubmit={(data, e) => handleSubmit(data, e)}
@@ -64,4 +65,4 @@ const CreateTemplatePage: React.FC = () => {
     );
 };
 
-export default CreateTemplatePage; 
+export default CreatePeriodNotificationPage; 

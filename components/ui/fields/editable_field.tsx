@@ -9,7 +9,7 @@ import {
 
 const SwitchableInput: React.FC<{
     initialValue: string | boolean | number,
-    onChange: (name: string, value: string | boolean | number) => void,
+    onChange: (name: string, value: string | boolean | number | null) => void,
     name: string,
     isEditing: boolean,
     isBoolean?: boolean,

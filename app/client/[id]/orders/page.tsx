@@ -12,6 +12,7 @@ import {
     TableColumnDefinition,
     createTableColumn,
     Button,
+    Input,
 } from '@fluentui/react-components';
 import { apiManager } from '@/services';
 import { Order } from '@/types/order';
@@ -25,17 +26,35 @@ const OrdersPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // Set the number of items per page
+    const [searchQuery, setSearchQuery] = useState(''); // New state for search query
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery); // State for debounced search query
 
     useEffect(() => {
         if (id) {
             fetchOrders();
         }
-    }, [id, currentPage]); // Add currentPage to the dependency array
+    }, [id, currentPage, debouncedSearchQuery]); // Add currentPage to the dependency array
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+        }, 300); // Debounce time in milliseconds
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchQuery]);
 
     const fetchOrders = async () => {
         try {
-            const fetchedOrders = await apiManager.getOrders(Number(id), (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
-            setOrders(orders => [...orders, ...fetchedOrders]);
+            if (debouncedSearchQuery.length == 0) {
+                const fetchedOrders = await apiManager.getOrders(Number(id), (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
+                setOrders(orders => [...orders, ...fetchedOrders]);
+            } else {
+                const fetchedOrders = await apiManager.getOrdersByCode(Number(id), debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
+                setOrders(fetchedOrders);
+            }
+
         } catch (error) {
             console.error('Failed to fetch orders:', error);
         } finally {
@@ -47,7 +66,12 @@ const OrdersPage: React.FC = () => {
         setCurrentPage(page => page + 1);
     };
 
-    // Calculate total pages based on the total number of orders
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            setDebouncedSearchQuery(searchQuery); // Trigger search on Enter key
+        }
+    };
 
     const columns: TableColumnDefinition<Order>[] = [
         createTableColumn<Order>({
@@ -90,6 +114,14 @@ const OrdersPage: React.FC = () => {
     return (
         <BackButtonLayout title='Client detail'>
             <div style={{ marginBottom: '1rem' }}>
+                <Input
+                    type="text"
+                    placeholder="Search orders..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
+                    onKeyDown={handleKeyDown} // Handle Enter key press
+                    style={{ marginRight: '1rem' }}
+                />
                 <Button appearance="primary" onClick={() => router.push(`/client/${id}/orders/create`)}>
                     Add New Order
                 </Button>

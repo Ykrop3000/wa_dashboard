@@ -9,6 +9,8 @@ import {
 import { AuthProvider } from '@/context/AuthContext'; // Import AuthProvider
 import Header from '@/components/Header'; // Import the Header component
 
+import '@/styles/global.css';
+
 const useStyles = makeStyles({
   container: {
     ...shorthands.padding('20px')

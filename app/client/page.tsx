@@ -37,6 +37,7 @@ const ClientDashboard: React.FC = () => {
     const [selectedItems, setSelectedItems] = useState<Set<string | number>>(new Set());
     const [loading, setLoading] = useState(true);
 
+
     useEffect(() => {
         setIsClient(true);
         (async () => {

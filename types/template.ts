@@ -5,4 +5,8 @@ export interface Template {
     status: string,
     template: string;
     // Add other template fields
+}
+export interface TemplatePeriodNotification extends Template {
+    start: number
+    end: number
 } 

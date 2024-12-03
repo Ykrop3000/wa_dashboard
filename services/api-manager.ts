@@ -4,7 +4,7 @@ import { FormContextType, RJSFSchema } from '@rjsf/utils';
 
 import { User } from '@/types/user';
 import { Order } from '@/types/order';
-import { Template } from '@/types/template';
+import { Template, TemplatePeriodNotification } from '@/types/template';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -91,6 +91,21 @@ export class ApiManager {
     }
 
     // Template endpoints
+
+    async getTemplateSchema(): Promise<RJSFSchema> {
+        const response = await this.api.get<RJSFSchema>(`/templates/schema`);
+        return response.data;
+    }
+
+    async getTemplateNotifiSchema(): Promise<RJSFSchema> {
+        const response = await this.api.get<RJSFSchema>(`/templates/period_notification/schema`);
+        return response.data;
+    }
+
+    async createTemplatePeriodNotification(userId: number, templateData: Omit<TemplatePeriodNotification, 'id' | 'user_id'>): Promise<TemplatePeriodNotification> {
+        const response = await this.api.post<TemplatePeriodNotification>(`/users/${userId}/period_notification/`, templateData);
+        return response.data;
+    }
     async createTemplate(userId: number, templateData: Omit<Template, 'id' | 'user_id'>): Promise<Template> {
         const response = await this.api.post<Template>(`/users/${userId}/templates/`, templateData);
         return response.data;
@@ -119,6 +134,11 @@ export class ApiManager {
 
     async getOrders(userId: number, skip = 0, limit = 100): Promise<Order[]> {
         const response = await this.api.get<Order[]>(`/users/${userId}/orders/?skip=${skip}&limit=${limit}`);
+        return response.data;
+    }
+
+    async getOrdersByCode(userId: number, code: string, skip = 0, limit = 100): Promise<Order[]> {
+        const response = await this.api.get<Order[]>(`/users/${userId}/orders/?code=${code}&skip=${skip}&limit=${limit}`);
         return response.data;
     }
 
