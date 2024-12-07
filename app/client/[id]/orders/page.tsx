@@ -104,6 +104,17 @@ const OrdersPage: React.FC = () => {
             renderHeaderCell: () => 'Send?',
             renderCell: (item) => item.is_sended ? 'Yes' : 'No',
         }),
+        createTableColumn<Order>({
+            columnId: 'created_at',
+            compare: (a, b) => (a.created_at?.getTime() || 0) - (b.created_at?.getTime() || 0),
+            renderHeaderCell: () => 'Created At',
+            renderCell: (item) => {
+                const createdAt = item.created_at ? new Date(item.created_at) : null; // Ensure created_at is a Date object
+                return createdAt
+                    ? `${createdAt.toLocaleDateString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false, minute: '2-digit', hour: '2-digit' })}`
+                    : 'N/A'; // Format without seconds
+            },
+        }),
         // Add more columns as needed for other order fields
     ];
 

@@ -11,7 +11,7 @@ import { ArrowLeftRegular } from '@fluentui/react-icons';
 const useStyles = makeStyles({
     container: {
         padding: '20px',
-        maxWidth: '800px',
+        maxWidth: '900px',
         margin: '0 auto',
     },
     header: {

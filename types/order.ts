@@ -6,5 +6,5 @@ export interface Order {
     state: string
     phone?: string
     is_sended?: boolean
-    // Add other order fields
+    created_at?: Date;
 } 
