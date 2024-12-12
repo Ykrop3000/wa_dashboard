@@ -103,7 +103,7 @@ export class ApiManager {
     }
 
     async bindWhatsapp(userId: number): Promise<string> {
-        const response = await this.api.post<string>(`/users/${userId}/bind_whatsapp_`);
+        const response = await this.api.post<string>(`/users/${userId}/bind_whatsapp`);
         return response.data
     }
     async getCode(userId: number): Promise<string> {
