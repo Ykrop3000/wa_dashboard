@@ -30,12 +30,15 @@ const OrdersPage: React.FC = () => {
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery); // State for debounced search query
 
     useEffect(() => {
+        console.log("fetchOrders")
         if (id) {
             fetchOrders();
         }
     }, [id, currentPage, debouncedSearchQuery]); // Add currentPage to the dependency array
 
     useEffect(() => {
+        console.log("searchQuery")
+
         const handler = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
         }, 300); // Debounce time in milliseconds
@@ -51,7 +54,7 @@ const OrdersPage: React.FC = () => {
                 const fetchedOrders = await apiManager.getOrders(Number(id), (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
                 setOrders(orders => [...orders, ...fetchedOrders]);
             } else {
-                const fetchedOrders = await apiManager.getOrdersByCode(Number(id), debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
+                const fetchedOrders = await apiManager.getOrderByCode(Number(id), debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
                 setOrders(fetchedOrders);
             }
 

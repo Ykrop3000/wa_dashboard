@@ -137,8 +137,8 @@ export class ApiManager {
         return response.data;
     }
 
-    async getOrdersByCode(userId: number, code: string, skip = 0, limit = 100): Promise<Order[]> {
-        const response = await this.api.get<Order[]>(`/users/${userId}/orders/?code=${code}&skip=${skip}&limit=${limit}`);
+    async getOrderByCode(userId: number, code: string, skip = 0, limit = 100): Promise<Order[]> {
+        const response = await this.api.get<Order[]>(`/users/${userId}/orders/code/${code}?&skip=${skip}&limit=${limit}`);
         return response.data;
     }
 
