@@ -7,6 +7,7 @@ import {
     Text,
     Spinner,
     Button,
+    Card,
 } from '@fluentui/react-components';
 
 import { withTheme } from '@rjsf/core';
@@ -16,17 +17,17 @@ import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
-import { User } from '@/types/user';
 import { apiManager } from '@/services';
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper'
 import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
+import { Template } from '@/types/template';
 
 export default function TemplateDetail() {
     const params = useParams();
-    const [user, setUser] = useState<Partial<User>>({});
+    const [template, setTemplate] = useState<Partial<Template>>({});
     const [isEditing, setEditing] = useState<boolean>(false)
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
     const Form = withTheme(FluentUIRCTheme);
     const [schema, setSchema] = useState<RJSFSchema>({});
@@ -64,18 +65,18 @@ export default function TemplateDetail() {
     }, [setSchema]);
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchTemplate = async () => {
             try {
-                const user = await apiManager.getTemplate(Number(params.template_id));
-                setUser(user);
-            } catch {
-                setError('An error occurred while fetching user data');
+                const template = await apiManager.getTemplate(Number(params.template_id));
+                setTemplate(template);
+            } catch (error) {
+                console.error('Error fetch template:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchUser();
+        fetchTemplate();
     }, [params.id]);
 
 
@@ -84,18 +85,23 @@ export default function TemplateDetail() {
         try {
             await apiManager.updateTemplate(Number(params.template_id), data.formData);
             setEditing(false)
-            setUser(data.formData)
+            setTemplate(data.formData)
         } catch (error) {
-            console.error('Error update client:', error);
+            console.error('Error updating template:', error);
+            if (Array.isArray(error)) {
+                setErrorMessages(error.map((err) => `${err.location}: ${err.message}`));
+            } else {
+                setErrorMessages(['An unexpected error occurred. Please try again.']);
+            }
         }
 
     }
 
-    if (error) return <Text color="red">{error}</Text>;
-    if (!user) return <Text>User not found</Text>;
+    if (!template) return <Text>Template not found</Text>;
 
     return (
         <BackButtonLayout title='Template detail'>
+
             {loading && <Spinner />}
             {!loading && <>
                 <Button
@@ -115,8 +121,24 @@ export default function TemplateDetail() {
                         Save
                     </Button>
                 }
+                {errorMessages.length > 0 && (
+                    <Card
+                        appearance="outline"
+                        className="error-alert"
+                        style={{
+                            borderColor: 'var(--colorPaletteRedBorderActive)',
+                            backgroundColor: 'var(--colorPaletteRedBackground2)'
+                        }}
+                    >
+                        <ul style={{ color: 'var(--colorPaletteRedForeground2)' }}>
+                            {errorMessages.map((msg, index) => (
+                                <li key={index}><Text>{msg}</Text></li>
+                            ))}
+                        </ul>
+                    </Card>
+                )}
                 <Form
-                    formData={user}
+                    formData={template}
                     readonly={!isEditing}
                     schema={schema}
                     onSubmit={handleSave}

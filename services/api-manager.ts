@@ -34,6 +34,18 @@ export class ApiManager {
             if (error.response.status === 401) {
                 redirect('/login');
             }
+            if (error.response.status === 422) {
+                const validationErrors = error.response.data.detail;
+                if (Array.isArray(validationErrors)) {
+                    return Promise.reject(validationErrors.map((err) => ({
+                        location: err.loc.join('.'),
+                        message: err.msg,
+                        context: err.ctx || {},
+                    })));
+                }
+            }
+
+            return Promise.reject(error);
         });
     }
 

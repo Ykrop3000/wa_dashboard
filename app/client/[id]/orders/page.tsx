@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import {
     DataGrid,
     DataGridHeader,
@@ -19,7 +19,6 @@ import { Order } from '@/types/order';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
 
 const OrdersPage: React.FC = () => {
-    const router = useRouter();
     const params = useParams();
     const id = params.id; // Get the client ID from the URL
     const [orders, setOrders] = useState<Order[]>([]);
