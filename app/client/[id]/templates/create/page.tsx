@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { withTheme } from '@rjsf/core';
-import { RJSFSchema, FormContextType } from '@rjsf/utils';
+import { RJSFSchema, FormContextType, WidgetProps } from '@rjsf/utils';
 import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
@@ -11,6 +11,7 @@ import validator from '@rjsf/validator-ajv8';
 import { apiManager } from '@/services'
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
+import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
 
 
 const CreateTemplatePage: React.FC = () => {
@@ -22,7 +23,18 @@ const CreateTemplatePage: React.FC = () => {
 
     const uiSchema = {
         "ui:options": { label: false },
-        "template": { "ui:widget": "textarea" }
+        "template": {
+            "ui:widget": (props: WidgetProps) => {
+                const { value = "", onChange, label, readonly, required } = props;
+
+                return <DynamicTextarea
+                    value={value}
+                    onChange={onChange}
+                    label={label}
+                    readonly={readonly}
+                    required={required} />;
+            },
+        }
     }
 
     useEffect(() => {

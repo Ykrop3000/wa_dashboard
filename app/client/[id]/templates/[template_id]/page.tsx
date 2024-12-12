@@ -11,7 +11,7 @@ import {
 
 import { withTheme } from '@rjsf/core';
 import Form from '@rjsf/core';
-import { RJSFSchema, FormContextType } from '@rjsf/utils';
+import { RJSFSchema, FormContextType, WidgetProps } from '@rjsf/utils';
 import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
@@ -19,6 +19,7 @@ import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 import { User } from '@/types/user';
 import { apiManager } from '@/services';
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper'
+import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
 
 export default function TemplateDetail() {
     const params = useParams();
@@ -35,7 +36,18 @@ export default function TemplateDetail() {
     const uiSchema = {
         "ui:options": { label: false },
         "ui:submitButtonOptions": { norender: true },
-        "template": { "ui:widget": "textarea" }
+        "template": {
+            "ui:widget": (props: WidgetProps) => {
+                const { value = "", onChange, label, readonly, required } = props;
+
+                return <DynamicTextarea
+                    value={value}
+                    onChange={onChange}
+                    label={label}
+                    readonly={readonly}
+                    required={required} />;
+            },
+        }
     };
 
 
