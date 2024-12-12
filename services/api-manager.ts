@@ -102,6 +102,15 @@ export class ApiManager {
         return response.data;
     }
 
+    async bindWhatsapp(userId: number): Promise<string> {
+        const response = await this.api.post<string>(`/users/${userId}/bind_whatsapp_`);
+        return response.data
+    }
+    async getCode(userId: number): Promise<string> {
+        const response = await this.api.post<string>(`/users/${userId}/whatsapp_code`);
+        return response.data
+    }
+
     // Template endpoints
 
     async getTemplateSchema(): Promise<RJSFSchema> {

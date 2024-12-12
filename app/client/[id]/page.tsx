@@ -78,6 +78,21 @@ export default function UserDetail() {
 
     }
 
+    const bindWhatsapp = async () => {
+        try {
+            await apiManager.bindWhatsapp(Number(params.id))
+        } catch (error) {
+            console.log("Error bind whatsapp:", error)
+        }
+    }
+    const getCode = async () => {
+        try {
+            await apiManager.getCode(Number(params.id))
+        } catch (error) {
+            console.log("Error bind whatsapp:", error)
+        }
+    }
+
     if (error) return <Text color="red">{error}</Text>;
     if (!user) return <Text>User not found</Text>;
 
@@ -113,6 +128,26 @@ export default function UserDetail() {
                 >
                     Create period notification
                 </Button>
+
+                {/* Whatsapp controll buttons */}
+                {(!user.green_api_instance_id || !user.green_api_instance_token) &&
+                    <Button
+                        appearance="secondary"
+                        onClick={bindWhatsapp}
+                        style={{ marginBottom: '10px', marginRight: '10px' }}
+                    >
+                        Create whatsapp instance
+                    </Button>
+                }
+
+                <Button
+                    appearance="secondary"
+                    onClick={getCode}
+                    style={{ marginBottom: '10px', marginRight: '10px' }}
+                >
+                    Get code
+                </Button>
+
                 {isEditing &&
                     <Button
                         type='submit'
