@@ -136,9 +136,9 @@ const OrdersPage: React.FC = () => {
                     onKeyDown={handleKeyDown} // Handle Enter key press
                     style={{ marginRight: '1rem' }}
                 />
-                <Button appearance="primary" onClick={() => router.push(`/client/${id}/orders/create`)}>
+                {/* <Button appearance="primary" onClick={() => router.push(`/client/${id}/orders/create`)}>
                     Add New Order
-                </Button>
+                </Button> */}
             </div>
             <DataGrid
                 items={orders}
