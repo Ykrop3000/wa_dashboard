@@ -8,6 +8,8 @@ import {
     Spinner,
     Button,
     Card,
+    MessageBarBody,
+    MessageBar,
 } from '@fluentui/react-components';
 
 import { withTheme } from '@rjsf/core';
@@ -125,16 +127,14 @@ export default function TemplateDetail() {
                     <Card
                         appearance="outline"
                         className="error-alert"
-                        style={{
-                            borderColor: 'var(--colorPaletteRedBorderActive)',
-                            backgroundColor: 'var(--colorPaletteRedBackground2)'
-                        }}
                     >
-                        <ul style={{ color: 'var(--colorPaletteRedForeground2)' }}>
-                            {errorMessages.map((msg, index) => (
-                                <li key={index}><Text>{msg}</Text></li>
-                            ))}
-                        </ul>
+                        {errorMessages.map((msg, index) => (
+                            <MessageBar key={index} intent={'error'}>
+                                <MessageBarBody>
+                                    {msg}
+                                </MessageBarBody>
+                            </MessageBar>
+                        ))}
                     </Card>
                 )}
                 <Form

@@ -30,9 +30,11 @@ export default function RootLayout({
         <FluentProvider theme={webLightTheme}>
           <AuthProvider>
             <Header />
+
             <div className={styles.container}>
               {children}
             </div>
+
           </AuthProvider>
         </FluentProvider>
       </body>

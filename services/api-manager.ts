@@ -5,6 +5,7 @@ import { FormContextType, RJSFSchema } from '@rjsf/utils';
 import { User } from '@/types/user';
 import { Order } from '@/types/order';
 import { Template, TemplatePeriodNotification } from '@/types/template';
+import { OrdersGroup } from '@/types/orders_group';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -112,7 +113,6 @@ export class ApiManager {
     }
 
     // Template endpoints
-
     async getTemplateSchema(): Promise<RJSFSchema> {
         const response = await this.api.get<RJSFSchema>(`/templates/schema`);
         return response.data;
@@ -153,13 +153,29 @@ export class ApiManager {
         return response.data;
     }
 
-    async getOrders(userId: number, skip = 0, limit = 100): Promise<Order[]> {
-        const response = await this.api.get<Order[]>(`/users/${userId}/orders/?skip=${skip}&limit=${limit}`);
+    async getOrders(userId: number, skip = 0, limit = 100, group: number | string | null = null): Promise<Order[]> {
+        let url = `/orders/?skip=${skip}&limit=${limit}&user_id=${userId}`
+        url = group ? url + `&group_id=${group}` : url
+        const response = await this.api.get<Order[]>(url);
         return response.data;
     }
 
     async getOrderByCode(userId: number, code: string, skip = 0, limit = 100): Promise<Order[]> {
-        const response = await this.api.get<Order[]>(`/users/${userId}/orders/code/${code}?&skip=${skip}&limit=${limit}`);
+        const response = await this.api.get<Order[]>(`/orders/code/${code}?skip=${skip}&limit=${limit}&user_id=${userId}`);
+        return response.data;
+    }
+
+    // Orders groups endpoints
+    async getOrdersGroupSchema(): Promise<RJSFSchema> {
+        const response = await this.api.get<RJSFSchema>(`/orders_groups/schema`);
+        return response.data;
+    }
+    async getOrdersGroupsByUser(userId: number, skip = 0, limit = 100): Promise<OrdersGroup[]> {
+        const response = await this.api.get<OrdersGroup[]>(`/orders_groups/?skip=${skip}&limit=${limit}&user=${userId}`);
+        return response.data;
+    }
+    async getOrdersGroup(ordersGroupId: number): Promise<OrdersGroup> {
+        const response = await this.api.get<OrdersGroup>(`/orders_groups/${ordersGroupId}/`);
         return response.data;
     }
 

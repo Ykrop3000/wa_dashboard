@@ -4,6 +4,7 @@ import React from 'react';
 import { useAuth } from '@/context/AuthContext'; // Import useAuth
 import { Button, Text } from '@fluentui/react-components';
 import { useRouter } from 'next/navigation';
+import MenuNavigation from './MenuNavigation';
 
 const Header: React.FC = () => {
     const { user, logout } = useAuth(); // Get user and logout function from context
@@ -18,10 +19,13 @@ const Header: React.FC = () => {
         <header style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
             {user && (
                 <>
-                    <Text size={400}>{user.username}</Text>
-                    <Button appearance="primary" onClick={handleLogout}>
-                        Logout
-                    </Button>
+                    <MenuNavigation />
+                    <div>
+                        <Text size={400} style={{ marginRight: '12px' }}>{user.username}</Text>
+                        <Button appearance="primary" onClick={handleLogout}>
+                            Logout
+                        </Button>
+                    </div>
                 </>
             )}
         </header>

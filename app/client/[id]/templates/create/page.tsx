@@ -11,7 +11,7 @@ import { apiManager } from '@/services';
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
 import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
-import { Card, Text } from '@fluentui/react-components';
+import { Card, MessageBar, MessageBarBody } from '@fluentui/react-components';
 
 const CreateTemplatePage: React.FC = () => {
     const Form = withTheme(FluentUIRCTheme);
@@ -74,16 +74,14 @@ const CreateTemplatePage: React.FC = () => {
                 <Card
                     appearance="outline"
                     className="error-alert"
-                    style={{
-                        borderColor: 'var(--colorPaletteRedBorderActive)',
-                        backgroundColor: 'var(--colorPaletteRedBackground2)'
-                    }}
                 >
-                    <ul style={{ color: 'var(--colorPaletteRedForeground2)' }}>
-                        {errorMessages.map((msg, index) => (
-                            <li key={index}><Text>{msg}</Text></li>
-                        ))}
-                    </ul>
+                    {errorMessages.map((msg, index) => (
+                        <MessageBar key={index} intent={'error'}>
+                            <MessageBarBody>
+                                {msg}
+                            </MessageBarBody>
+                        </MessageBar>
+                    ))}
                 </Card>
             )}
             <Form

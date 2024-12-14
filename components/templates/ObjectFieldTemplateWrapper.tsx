@@ -49,7 +49,9 @@ interface GroupMap {
 
 function transformSchemaToGroupMap(schema: RJSFSchema) {
     const groupMap: GroupMap = {};
-
+    if (!schema.properties) {
+        return groupMap
+    }
     // Iterate through the properties in the schema
     Object.entries(schema.properties).forEach(([key, value]) => {
         const group = (value as SchemaProperty).group || ''; // Use type assertion

@@ -8,6 +8,7 @@ import {
     Spinner,
     Button,
 } from '@fluentui/react-components';
+import { Edit12Regular } from "@fluentui/react-icons"
 
 import { withTheme } from '@rjsf/core';
 import Form from '@rjsf/core';
@@ -101,6 +102,7 @@ export default function UserDetail() {
             {loading && <Spinner />}
             {!loading && <>
                 <Button
+                    icon={<Edit12Regular />}
                     appearance="primary"
                     onClick={() => setEditing(!isEditing)}
                     style={{ marginBottom: '10px', marginRight: '10px' }}
@@ -127,6 +129,13 @@ export default function UserDetail() {
                     style={{ marginBottom: '10px', marginRight: '10px' }}
                 >
                     Create period notification
+                </Button>
+                <Button
+                    appearance="secondary"
+                    onClick={() => router.push(`/client/${params.id}/orders_groups`)}
+                    style={{ marginBottom: '10px', marginRight: '10px' }}
+                >
+                    Orders groups
                 </Button>
 
                 {/* Whatsapp controll buttons */}

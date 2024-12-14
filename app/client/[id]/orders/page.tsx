@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import {
     DataGrid,
     DataGridHeader,
@@ -20,6 +20,7 @@ import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
 
 const OrdersPage: React.FC = () => {
     const params = useParams();
+    const searchParams = useSearchParams();
     const id = params.id; // Get the client ID from the URL
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
@@ -50,10 +51,15 @@ const OrdersPage: React.FC = () => {
     const fetchOrders = async () => {
         try {
             if (debouncedSearchQuery.length == 0) {
-                const fetchedOrders = await apiManager.getOrders(Number(id), (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
+                const fetchedOrders = await apiManager.getOrders(
+                    Number(id),
+                    (currentPage - 1) * itemsPerPage,
+                    itemsPerPage,
+                    searchParams.get('group'));
                 setOrders(orders => [...orders, ...fetchedOrders]);
             } else {
-                const fetchedOrders = await apiManager.getOrderByCode(Number(id), debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
+                const fetchedOrders = await apiManager.getOrderByCode(Number(id),
+                    debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
                 setOrders(fetchedOrders);
             }
 
@@ -125,7 +131,7 @@ const OrdersPage: React.FC = () => {
     }
 
     return (
-        <BackButtonLayout title='Client detail'>
+        <BackButtonLayout title='Orders'>
             <div style={{ marginBottom: '1rem' }}>
                 <Input
                     type="text"
