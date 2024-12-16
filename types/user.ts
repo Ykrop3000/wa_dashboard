@@ -43,6 +43,9 @@ export interface User {
     // Relationships
     message_templates?: Template[];
     orders?: Order[];
+
+    billing_plan_end?: Date;
+
 }
 
 // For creating a new user

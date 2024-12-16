@@ -135,6 +135,17 @@ const ClientDashboard: React.FC = () => {
             renderCell: (item) => item.count_messages_sent,
         }),
         createTableColumn<User>({
+            columnId: 'billing_plan_end',
+            compare: (a, b) => (a.billing_plan_end?.getTime() || 0) - (b.billing_plan_end?.getTime() || 0),
+            renderHeaderCell: () => 'End billing',
+            renderCell: (item) => {
+                const billing_plan_end = item.billing_plan_end ? new Date(item.billing_plan_end) : null;
+                return billing_plan_end
+                    ? `${billing_plan_end.toLocaleDateString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false, minute: '2-digit', hour: '2-digit' })}`
+                    : 'N/A';
+            },
+        }),
+        createTableColumn<User>({
             columnId: "openAction",
             renderHeaderCell: () => {
                 return "Open";

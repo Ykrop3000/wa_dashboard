@@ -6,6 +6,7 @@ import { User } from '@/types/user';
 import { Order } from '@/types/order';
 import { Template, TemplatePeriodNotification } from '@/types/template';
 import { OrdersGroup } from '@/types/orders_group';
+import { BillingPlan } from '@/types/billing_plan';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -29,6 +30,15 @@ export class ApiManager {
             if (this.token) {
                 config.headers['Authorization'] = `Bearer ${this.token}`;
             }
+            // if (config.data && typeof config.data === 'object') {
+            //     config.data = Object.fromEntries(
+            //         Object.entries(config.data).map(([key, value]) => [
+            //             key,
+            //             value === undefined ? null : value,
+            //         ])
+            //     );
+            // }
+            console.log(config)
             return config;
         });
         this.api.interceptors.response.use((response) => response, (error) => {
@@ -93,8 +103,9 @@ export class ApiManager {
         return response.data;
     }
 
-    async updateUser(userId: number, userData: Partial<User>): Promise<User> {
-        const response = await this.api.put<User>(`/users/${userId}`, userData);
+    async updateUser(userId: number, userData: FormContextType): Promise<User> {
+        console.log(userData)
+        const response = await this.api.patch<User>(`/users/${userId}`, userData);
         return response.data;
     }
 
@@ -123,12 +134,16 @@ export class ApiManager {
         return response.data;
     }
 
-    async createTemplatePeriodNotification(userId: number, templateData: Omit<TemplatePeriodNotification, 'id' | 'user_id'>): Promise<TemplatePeriodNotification> {
+    async createTemplatePeriodNotification(userId: number, templateData: FormContextType): Promise<TemplatePeriodNotification> {
         const response = await this.api.post<TemplatePeriodNotification>(`/users/${userId}/period_notification/`, templateData);
         return response.data;
     }
-    async createTemplate(userId: number, templateData: Omit<Template, 'id' | 'user_id'>): Promise<Template> {
+    async createTemplate(userId: number, templateData: FormContextType): Promise<Template> {
         const response = await this.api.post<Template>(`/users/${userId}/templates/`, templateData);
+        return response.data;
+    }
+    async deleteTemplate(templateId: number): Promise<User> {
+        const response = await this.api.delete<User>(`/templates/${templateId}`);
         return response.data;
     }
 
@@ -143,7 +158,7 @@ export class ApiManager {
     }
 
     async updateTemplate(templateId: number, templateData: Partial<Template>): Promise<User> {
-        const response = await this.api.put<User>(`/templates/${templateId}`, templateData);
+        const response = await this.api.patch<User>(`/templates/${templateId}`, templateData);
         return response.data;
     }
 
@@ -205,6 +220,35 @@ export class ApiManager {
             localStorage.setItem('role', response.data.role);
         }
         this.me = response.data;
+        return response.data;
+    }
+
+
+    // Billing plans
+    async getBillingPlanSchema(): Promise<RJSFSchema> {
+        const response = await this.api.get<RJSFSchema>(`/billing_plans/schema`);
+        return response.data;
+    }
+
+    async getBillingPlan(userId: number): Promise<BillingPlan> {
+        const response = await this.api.get<BillingPlan>(`/billing_plans/${userId}`);
+        return response.data;
+    }
+    async getBillingPlans(skip = 0, limit = 100): Promise<BillingPlan[]> {
+        const response = await this.api.get<BillingPlan[]>(`/billing_plans/?skip=${skip}&limit=${limit}`);
+        return response.data;
+    }
+
+    async updateBillingPlan(userId: number, billingPlanData: Partial<BillingPlan>): Promise<BillingPlan> {
+        const response = await this.api.patch<BillingPlan>(`/billing_plans/${userId}`, billingPlanData);
+        return response.data;
+    }
+    async createBillingPlan(billingPlanData: FormContextType): Promise<BillingPlan> {
+        const response = await this.api.post<BillingPlan>('/billing_plans/', billingPlanData);
+        return response.data;
+    }
+    async deleteBillingPlan(userId: number): Promise<BillingPlan> {
+        const response = await this.api.delete<BillingPlan>(`/billing_plans/${userId}`);
         return response.data;
     }
 }

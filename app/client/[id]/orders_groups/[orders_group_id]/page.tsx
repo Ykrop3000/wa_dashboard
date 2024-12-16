@@ -108,6 +108,13 @@ export default function TemplateDetail() {
             >
                 Orders
             </Button>
+            <Button
+                appearance="primary"
+                onClick={() => router.push(`/client/${params.id}/orders?group=${params.orders_group_id}`)}
+                style={{ marginBottom: '10px', marginRight: '10px' }}
+            >
+                Send Orders
+            </Button>
             {loading && <Spinner />}
             {!loading && <>
                 <Form
