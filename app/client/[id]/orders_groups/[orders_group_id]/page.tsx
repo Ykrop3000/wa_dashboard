@@ -16,6 +16,7 @@ export default function OrdersGroupDetail() {
 
 
     const handleUpdate = async (data: FormContextType) => {
+        console.log(data)
         // await apiManager.updateTemplate(Number(params.template_id), data);
     }
     const handleRemove = async () => {
