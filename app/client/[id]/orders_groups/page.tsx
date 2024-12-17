@@ -83,7 +83,7 @@ const OrdersGroupsPage: React.FC = () => {
     }
 
     return (
-        <BackButtonLayout title='Orders groups'>
+        <BackButtonLayout title='Группы заказов'>
             <DataGrid
                 items={ordersGroups}
                 columns={columns}
@@ -110,7 +110,7 @@ const OrdersGroupsPage: React.FC = () => {
             </DataGrid>
             <div style={{ textAlign: 'center', paddingTop: '12px' }}>
                 <Button onClick={() => loadNextPage()}>
-                    Load more
+                    Загрузить больше
                 </Button>
             </div>
         </BackButtonLayout>

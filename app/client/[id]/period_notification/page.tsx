@@ -21,7 +21,7 @@ const CreatePeriodNotificationPage: React.FC = () => {
 
     return (
         <Create
-            title="Create period notification"
+            title="Создать группу заказов за период"
             getSchema={async () => await apiManager.getTemplateNotifiSchema()}
             onCreate={handleCreate}
             setFormData={setFormData}

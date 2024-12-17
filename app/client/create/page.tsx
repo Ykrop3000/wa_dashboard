@@ -19,7 +19,7 @@ const CreateClientPage: React.FC = () => {
 
     return (
         <Create
-            title="Create client"
+            title="Создать клиента"
             getSchema={async () => await apiManager.getUserSchema()}
             onCreate={handleCreate}
             setFormData={setFormData}

@@ -23,7 +23,7 @@ const Header: React.FC = () => {
                     <div>
                         <Text size={400} style={{ marginRight: '12px' }}>{user.username}</Text>
                         <Button appearance="primary" onClick={handleLogout}>
-                            Logout
+                            Выйти
                         </Button>
                     </div>
                 </>

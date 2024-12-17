@@ -65,13 +65,13 @@ const ClientDashboard: React.FC = () => {
         createTableColumn<User>({
             columnId: 'name',
             compare: (a, b) => a.name.localeCompare(b.name),
-            renderHeaderCell: () => 'Name',
+            renderHeaderCell: () => 'Имя',
             renderCell: (item) => item.name,
         }),
         createTableColumn<User>({
             columnId: 'phone',
             compare: (a, b) => a.phone.localeCompare(b.phone),
-            renderHeaderCell: () => 'Phone',
+            renderHeaderCell: () => 'Телефон',
             renderCell: (item) => item.phone,
         }),
         createTableColumn<User>({
@@ -80,7 +80,7 @@ const ClientDashboard: React.FC = () => {
             renderHeaderCell: () => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <CheckmarkCircleRegular />
-                    Authorized
+                    Авторизован
                 </div>
             ),
             renderCell: (item) => (
@@ -98,7 +98,7 @@ const ClientDashboard: React.FC = () => {
             renderHeaderCell: () => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <DismissCircleRegular />
-                    Disabled
+                    Отключен
                 </div>
             ),
             renderCell: (item) => (
@@ -116,7 +116,7 @@ const ClientDashboard: React.FC = () => {
             renderHeaderCell: () => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <BeakerRegular />
-                    Test
+                    Тест
                 </div>
             ),
             renderCell: (item) => (
@@ -131,13 +131,13 @@ const ClientDashboard: React.FC = () => {
         createTableColumn<User>({
             columnId: 'count_messages_sent',
             compare: (a, b) => (a.count_messages_sent ?? 0) - (b.count_messages_sent ?? 0),
-            renderHeaderCell: () => 'Messages today',
+            renderHeaderCell: () => 'Сообщений сегодня',
             renderCell: (item) => item.count_messages_sent,
         }),
         createTableColumn<User>({
             columnId: 'billing_plan_end',
             compare: (a, b) => (a.billing_plan_end?.getTime() || 0) - (b.billing_plan_end?.getTime() || 0),
-            renderHeaderCell: () => 'End billing',
+            renderHeaderCell: () => 'Конец оплаты',
             renderCell: (item) => {
                 const billing_plan_end = item.billing_plan_end ? new Date(item.billing_plan_end) : null;
                 return billing_plan_end
@@ -148,7 +148,7 @@ const ClientDashboard: React.FC = () => {
         createTableColumn<User>({
             columnId: "openAction",
             renderHeaderCell: () => {
-                return "Open";
+                return "Открыть";
             },
             renderCell: (item) => {
                 return <Button
@@ -235,7 +235,7 @@ const ClientDashboard: React.FC = () => {
                 <Button appearance="primary"
                     onClick={() => router.push('/client/create')}
                 >
-                    Add New Client
+                    Создать клиента
                 </Button>
                 {selectedItems.size > 0 && (
                     <>
@@ -244,21 +244,21 @@ const ClientDashboard: React.FC = () => {
                             icon={<StopRegular />}
                             onClick={handleStop}
                         >
-                            Stop Selected
+                            Остановить выбранные
                         </Button>
                         <Button
                             appearance="secondary"
                             icon={<CheckmarkCircleRegular />}
                             onClick={handleStart}
                         >
-                            Start Selected
+                            Запустить выбранные
                         </Button>
                         <Button
                             appearance="secondary"
                             icon={<DeleteRegular />}
                             onClick={handleRemove}
                         >
-                            Remove Selected
+                            Удалить выбранные
                         </Button>
 
                     </>

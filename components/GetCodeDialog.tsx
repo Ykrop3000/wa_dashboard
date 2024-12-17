@@ -37,15 +37,15 @@ const GetCodeDialog: React.FC<{
         <Dialog surfaceMotion={null} open={open} onOpenChange={onOpenChange}>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Code:</DialogTitle>
+                    <DialogTitle>Код:</DialogTitle>
                     <DialogContent>
                         {code}
                     </DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="secondary">Close</Button>
+                            <Button appearance="secondary">Закрыть</Button>
                         </DialogTrigger>
-                        <Button appearance="primary" onClick={getCode}>Get code</Button>
+                        <Button appearance="primary" onClick={getCode}>Получить код</Button>
                     </DialogActions>
                 </DialogBody>
             </DialogSurface>

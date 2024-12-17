@@ -46,15 +46,15 @@ const RemoveDialog: React.FC<{
         <Dialog surfaceMotion={null} open={open} onOpenChange={onOpenChange}>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Confirm Removal</DialogTitle>
+                    <DialogTitle>Подтвердить удаление</DialogTitle>
                     <DialogContent>
-                        Are you sure you want to remove this item? This action cannot be undone.
+                        Вы уверены, что хотите удалить этот элемент? Это действие не может быть отменено.
                     </DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>
-                            <Button appearance="secondary">Close</Button>
+                            <Button appearance="secondary">Закрыть</Button>
                         </DialogTrigger>
-                        <Button appearance="primary" onClick={handleRemove}>Remove</Button>
+                        <Button appearance="primary" onClick={handleRemove}>Удалить</Button>
                     </DialogActions>
                 </DialogBody>
             </DialogSurface>
@@ -184,7 +184,7 @@ const Detail: React.FC<{
                                 appearance="primary"
                                 onClick={() => formRef.current?.submit()}
                             >
-                                Save
+                                Сохранить
                             </ToolbarButton>
                         }
                         {toolbar}

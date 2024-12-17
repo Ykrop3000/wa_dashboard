@@ -57,7 +57,7 @@ export default function UserDetail() {
         <>
             <GetCodeDialog open={codeDialogOpen} onOpenChange={(e, data) => setCodeDialogOpen(data.open)} />
             <Detail
-                title='Client detail'
+                title='Клиент'
                 getSchema={async () => await apiManager.getUserSchema()}
                 getFormData={async () => await apiManager.getUser(Number(params.id))}
                 setFormData={setFormData}
@@ -84,19 +84,19 @@ export default function UserDetail() {
                         <MenuPopover>
                             <MenuList>
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/orders`)}>
-                                    Orders
+                                    Заказы
                                 </MenuItem>
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/templates`)}>
-                                    Templates
+                                    Шаблоны
                                 </MenuItem>
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/period_notification`)}>
-                                    Create period notification
+                                    Создать группу заказов за период
                                 </MenuItem>
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/orders_groups`)}>
-                                    Orders groups
+                                    Группы заказов
                                 </MenuItem>
                                 <MenuItem onClick={() => setCodeDialogOpen(true)}>
-                                    Get code
+                                    Получить код
                                 </MenuItem>
                             </MenuList>
                         </MenuPopover>

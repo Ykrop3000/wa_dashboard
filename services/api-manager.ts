@@ -142,8 +142,8 @@ export class ApiManager {
         const response = await this.api.post<Template>(`/users/${userId}/templates/`, templateData);
         return response.data;
     }
-    async deleteTemplate(templateId: number): Promise<User> {
-        const response = await this.api.delete<User>(`/templates/${templateId}`);
+    async deleteTemplate(templateId: number): Promise<Template> {
+        const response = await this.api.delete<Template>(`/templates/${templateId}`);
         return response.data;
     }
 
@@ -157,8 +157,8 @@ export class ApiManager {
         return response.data;
     }
 
-    async updateTemplate(templateId: number, templateData: Partial<Template>): Promise<User> {
-        const response = await this.api.patch<User>(`/templates/${templateId}`, templateData);
+    async updateTemplate(templateId: number, templateData: FormContextType): Promise<Template> {
+        const response = await this.api.patch<Template>(`/templates/${templateId}`, templateData);
         return response.data;
     }
 
@@ -191,6 +191,14 @@ export class ApiManager {
     }
     async getOrdersGroup(ordersGroupId: number): Promise<OrdersGroup> {
         const response = await this.api.get<OrdersGroup>(`/orders_groups/${ordersGroupId}/`);
+        return response.data;
+    }
+    async deleteOrdersGroup(ordersGroupId: number): Promise<OrdersGroup> {
+        const response = await this.api.delete<OrdersGroup>(`/orders_groups/${ordersGroupId}/`)
+        return response.data
+    }
+    async sendOrdersGroup(ordersGroupId: number): Promise<string> {
+        const response = await this.api.post<string>(`/orders_groups/${ordersGroupId}/send`);
         return response.data;
     }
 

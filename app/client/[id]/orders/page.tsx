@@ -85,37 +85,37 @@ const OrdersPage: React.FC = () => {
         createTableColumn<Order>({
             columnId: 'code',
             compare: (a, b) => a.code - b.code,
-            renderHeaderCell: () => 'Code',
+            renderHeaderCell: () => 'Код',
             renderCell: (item) => item.code,
         }),
         createTableColumn<Order>({
             columnId: 'status',
             compare: (a, b) => a.status.localeCompare(b.status),
-            renderHeaderCell: () => 'Status',
+            renderHeaderCell: () => 'Статус',
             renderCell: (item) => item.status,
         }),
         createTableColumn<Order>({
             columnId: 'state',
             compare: (a, b) => a.state.localeCompare(b.state),
-            renderHeaderCell: () => 'State',
+            renderHeaderCell: () => 'Состояние',
             renderCell: (item) => item.state,
         }),
         createTableColumn<Order>({
             columnId: 'phone',
             compare: (a, b) => (a.phone || '').localeCompare(b.phone || ''),
-            renderHeaderCell: () => 'Phone',
+            renderHeaderCell: () => 'Телефон',
             renderCell: (item) => item.phone || 'N/A',
         }),
         createTableColumn<Order>({
             columnId: 'is_sended',
             compare: (a, b) => (a.is_sended === b.is_sended ? 0 : a.is_sended ? 1 : -1),
-            renderHeaderCell: () => 'Send?',
+            renderHeaderCell: () => 'Отправлено?',
             renderCell: (item) => item.is_sended ? 'Yes' : 'No',
         }),
         createTableColumn<Order>({
             columnId: 'created_at',
             compare: (a, b) => (a.created_at?.getTime() || 0) - (b.created_at?.getTime() || 0),
-            renderHeaderCell: () => 'Created At',
+            renderHeaderCell: () => 'Создано в',
             renderCell: (item) => {
                 const createdAt = item.created_at ? new Date(item.created_at) : null; // Ensure created_at is a Date object
                 return createdAt
@@ -131,11 +131,11 @@ const OrdersPage: React.FC = () => {
     }
 
     return (
-        <BackButtonLayout title='Orders'>
+        <BackButtonLayout title='Заказы'>
             <div style={{ marginBottom: '1rem' }}>
                 <Input
                     type="text"
-                    placeholder="Search orders..."
+                    placeholder="Поиск по коду."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
                     onKeyDown={handleKeyDown} // Handle Enter key press
@@ -171,7 +171,7 @@ const OrdersPage: React.FC = () => {
             </DataGrid>
             <div style={{ textAlign: 'center', paddingTop: '12px' }}>
                 <Button onClick={() => loadNextPage()}>
-                    Load more
+                    Загрузить больше
                 </Button>
             </div>
         </BackButtonLayout>

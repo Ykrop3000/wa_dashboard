@@ -46,19 +46,19 @@ const TemplatesPage: React.FC = () => {
         createTableColumn<Template>({
             columnId: 'state',
             compare: (a, b) => a.state.localeCompare(b.state),
-            renderHeaderCell: () => 'State',
+            renderHeaderCell: () => 'Состояние',
             renderCell: (item) => item.state,
         }),
         createTableColumn<Template>({
             columnId: 'status',
             compare: (a, b) => a.status.localeCompare(b.status),
-            renderHeaderCell: () => 'Status',
+            renderHeaderCell: () => 'Статус',
             renderCell: (item) => item.status,
         }),
         createTableColumn<Template>({
             columnId: "openAction",
             renderHeaderCell: () => {
-                return "Open";
+                return "Открыть";
             },
             renderCell: (item) => {
                 return <Button
@@ -76,7 +76,7 @@ const TemplatesPage: React.FC = () => {
     }
 
     return (
-        <BackButtonLayout title='All templates'>
+        <BackButtonLayout title='Шаблоны'>
             <div style={{ marginBottom: '1rem' }}>
                 <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
                     Add New Template

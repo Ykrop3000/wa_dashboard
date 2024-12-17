@@ -29,7 +29,7 @@ export default function TemplateDetail() {
 
     return (
         <Detail
-            title='Template detail'
+            title='Шаблон'
             getSchema={async () => await apiManager.getTemplateSchema()}
             getFormData={async () => await apiManager.getTemplate(Number(params.template_id))}
             setFormData={setFormData}

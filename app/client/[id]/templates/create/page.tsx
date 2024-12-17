@@ -18,7 +18,7 @@ const CreateTemplatePage: React.FC = () => {
 
     return (
         <Create
-            title="Create template"
+            title="Создать шаблон"
             getSchema={async () => await apiManager.getTemplateSchema()}
             onCreate={handleCreate}
             setFormData={setFormData}
