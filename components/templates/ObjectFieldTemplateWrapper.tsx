@@ -73,7 +73,6 @@ const ObjectFieldTemplateWrapper = (props: ObjectFieldTemplateProps) => {
     const { schema } = props;
     const groups = transformSchemaToGroupMap(schema);
     const styles = useStyles();
-
     return (
         <>
             {Object.keys(groups).map((group_name) => {

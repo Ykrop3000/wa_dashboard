@@ -69,10 +69,10 @@ const Login: React.FC = () => {
     return (
         <div className={classes.container}>
             <Card className={classes.card}>
-                <CardHeader header={<Text size={500}>Login</Text>} />
+                <CardHeader header={<Text size={500}>Вход</Text>} />
                 <form onSubmit={handleLogin}>
                     <div className={classes.field}>
-                        <Label htmlFor="username">Username:</Label>
+                        <Label htmlFor="username">Имя пользователя:</Label>
                         <Input
                             type="text"
                             id="username"
@@ -82,7 +82,7 @@ const Login: React.FC = () => {
                         />
                     </div>
                     <div className={classes.field}>
-                        <Label htmlFor="password">Password:</Label>
+                        <Label htmlFor="password">Пароль:</Label>
                         <Input
                             type="password"
                             id="password"
@@ -93,7 +93,7 @@ const Login: React.FC = () => {
                     </div>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <Button appearance="primary" type="submit" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Вход...' : 'Войти'}
                     </Button>
                 </form>
             </Card>

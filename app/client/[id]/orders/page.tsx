@@ -107,6 +107,12 @@ const OrdersPage: React.FC = () => {
             renderCell: (item) => item.phone || 'N/A',
         }),
         createTableColumn<Order>({
+            columnId: 'name',
+            compare: (a, b) => (a.customer?.first_name || '').localeCompare(b.customer?.first_name || ''),
+            renderHeaderCell: () => 'Имя',
+            renderCell: (item) => item.customer?.first_name || 'N/A',
+        }),
+        createTableColumn<Order>({
             columnId: 'is_sended',
             compare: (a, b) => (a.is_sended === b.is_sended ? 0 : a.is_sended ? 1 : -1),
             renderHeaderCell: () => 'Отправлено?',

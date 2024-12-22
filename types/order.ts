@@ -1,3 +1,5 @@
+import { Customer } from "./customer";
+
 export interface Order {
     id: number;
     user_id: number;
@@ -7,4 +9,6 @@ export interface Order {
     phone?: string
     is_sended?: boolean
     created_at?: Date;
+
+    customer?: Customer
 } 

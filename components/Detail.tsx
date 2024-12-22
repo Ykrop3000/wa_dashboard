@@ -23,6 +23,9 @@ import validator from '@rjsf/validator-ajv8';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper'
+// import DescriptionFieldTemplateCustom from '@/components/templates/DescriptionFieldTemplateCustom'
+// import FieldTemplateCustom from '@/components/templates/FieldTemplateCustom'
+// import WrapIfAdditionalTemplateCustom from '@/components/templates/WrapIfAdditionalTemplateCustom'
 import DynamicTextarea from './ui/fields/dynamic_text_area';
 
 import {
@@ -214,7 +217,10 @@ const Detail: React.FC<{
                         noValidate={true}
                         uiSchema={uiSchema}
                         templates={{
-                            ObjectFieldTemplate: ObjectFieldTemplateWrapper
+                            ObjectFieldTemplate: ObjectFieldTemplateWrapper,
+                            // DescriptionFieldTemplate: DescriptionFieldTemplateCustom,
+                            // FieldTemplate: FieldTemplateCustom,
+                            // WrapIfAdditionalTemplate: WrapIfAdditionalTemplateCustom
                         }}
                     />
                 </>}

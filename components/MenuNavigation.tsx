@@ -13,7 +13,7 @@ const MenuNavigation = () => {
 
             <MenuPopover>
                 <MenuList>
-                    <MenuItem onClick={() => router.push('/client')}>Clients</MenuItem>
+                    <MenuItem onClick={() => router.push('/client')}>Клиенты</MenuItem>
                     <MenuItem onClick={() => router.push('/billing_plan')}>Billing plans</MenuItem>
                 </MenuList>
             </MenuPopover>
