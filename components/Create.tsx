@@ -7,10 +7,13 @@ import { RJSFSchema, FormContextType, WidgetProps } from '@rjsf/utils';
 import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
-import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
 import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
 import { Card, MessageBar, MessageBarBody } from '@fluentui/react-components';
+
+import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
+import DescriptionFieldTemplateCustom from './templates/DescriptionFieldTemplateCustom';
+import BaseInputTemplateCustom from './templates/BaseInputTemplateCustom';
 
 const Create: React.FC<{
     title: string,
@@ -98,6 +101,8 @@ const Create: React.FC<{
                 uiSchema={uiSchema}
                 templates={{
                     ObjectFieldTemplate: ObjectFieldTemplateWrapper,
+                    DescriptionFieldTemplate: DescriptionFieldTemplateCustom,
+                    BaseInputTemplate: BaseInputTemplateCustom,
                 }}
             />
         </BackButtonLayout>

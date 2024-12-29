@@ -7,6 +7,7 @@ import { Order } from '@/types/order';
 import { Template, TemplatePeriodNotification } from '@/types/template';
 import { OrdersGroup } from '@/types/orders_group';
 import { BillingPlan } from '@/types/billing_plan';
+import { TaskStatus } from '@/types/task'
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -231,6 +232,11 @@ export class ApiManager {
         return response.data;
     }
 
+    // Task endpoints
+    async getTaskStatus(task_id: string): Promise<TaskStatus> {
+        const response = await this.api.post(`/tasks/status/${task_id}`)
+        return response.data
+    }
 
     // Billing plans
     async getBillingPlanSchema(): Promise<RJSFSchema> {

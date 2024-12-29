@@ -23,10 +23,9 @@ import validator from '@rjsf/validator-ajv8';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper'
-// import DescriptionFieldTemplateCustom from '@/components/templates/DescriptionFieldTemplateCustom'
-// import FieldTemplateCustom from '@/components/templates/FieldTemplateCustom'
-// import WrapIfAdditionalTemplateCustom from '@/components/templates/WrapIfAdditionalTemplateCustom'
+import DescriptionFieldTemplateCustom from '@/components/templates/DescriptionFieldTemplateCustom'
 import DynamicTextarea from './ui/fields/dynamic_text_area';
+import BaseInputTemplateCustom from '@/components/templates/BaseInputTemplateCustom'
 
 import {
     Dialog,
@@ -218,7 +217,8 @@ const Detail: React.FC<{
                         uiSchema={uiSchema}
                         templates={{
                             ObjectFieldTemplate: ObjectFieldTemplateWrapper,
-                            // DescriptionFieldTemplate: DescriptionFieldTemplateCustom,
+                            DescriptionFieldTemplate: DescriptionFieldTemplateCustom,
+                            BaseInputTemplate: BaseInputTemplateCustom,
                             // FieldTemplate: FieldTemplateCustom,
                             // WrapIfAdditionalTemplate: WrapIfAdditionalTemplateCustom
                         }}

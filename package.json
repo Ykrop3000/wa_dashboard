@@ -18,8 +18,10 @@
     "@rjsf/validator-ajv8": "^5.23.1",
     "@types/axios": "^0.14.4",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.7",
     "next": "15.0.3",
     "react": ">=16.14.0 <19.0.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": ">=16.14.0 <19.0.0",
     "styled-components": "^6.1.13"
   },
