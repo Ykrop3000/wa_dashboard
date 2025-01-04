@@ -37,7 +37,7 @@ const GetQrDialog: React.FC<{
         <Dialog surfaceMotion={null} open={open} onOpenChange={onOpenChange}>
             <DialogSurface>
                 <DialogBody>
-                    <DialogTitle>Код:</DialogTitle>
+                    <DialogTitle>QR Код:</DialogTitle>
                     <DialogContent>
                         {qr ? <img src={`data:image/png;base64, ${qr}`} alt="QR Code" /> : <Spinner />}
 

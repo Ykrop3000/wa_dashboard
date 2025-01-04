@@ -13,6 +13,10 @@ const useStyles = makeStyles({
         padding: '20px',
         maxWidth: '900px',
         margin: '0 auto',
+        '@media (max-width: 600px)': {
+            paddingLeft: 0,
+            paddingRight: 0
+        },
     },
     header: {
         display: 'flex',

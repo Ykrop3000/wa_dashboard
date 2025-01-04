@@ -10,7 +10,8 @@ import {
     DialogActions,
     DialogContent,
     Button,
-    Spinner
+    Spinner,
+    Text
 } from "@fluentui/react-components";
 
 import { apiManager } from "@/services";
@@ -40,7 +41,7 @@ const GetCodeDialog: React.FC<{
                     <DialogTitle>Код:</DialogTitle>
                     <DialogContent>
                         {!code && <Spinner />}
-                        {code}
+                        <Text size={600}>{code}</Text>
                     </DialogContent>
                     <DialogActions>
                         <DialogTrigger disableButtonEnhancement>

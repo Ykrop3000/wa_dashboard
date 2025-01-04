@@ -227,6 +227,8 @@ const ClientDashboard: React.FC = () => {
     return (
         <div>
             <div style={{
+                overflowX: 'auto',
+                width: '100%',
                 marginBottom: '1rem',
                 display: 'flex',
                 gap: '1rem',
@@ -234,6 +236,7 @@ const ClientDashboard: React.FC = () => {
             }}>
                 <Button appearance="primary"
                     onClick={() => router.push('/client/create')}
+                    style={{ minWidth: 'fit-content' }}
                 >
                     Создать клиента
                 </Button>
@@ -243,6 +246,7 @@ const ClientDashboard: React.FC = () => {
                             appearance="secondary"
                             icon={<StopRegular />}
                             onClick={handleStop}
+                            style={{ minWidth: 'fit-content' }}
                         >
                             Остановить выбранные
                         </Button>
@@ -250,6 +254,7 @@ const ClientDashboard: React.FC = () => {
                             appearance="secondary"
                             icon={<CheckmarkCircleRegular />}
                             onClick={handleStart}
+                            style={{ minWidth: 'fit-content' }}
                         >
                             Запустить выбранные
                         </Button>
@@ -257,6 +262,7 @@ const ClientDashboard: React.FC = () => {
                             appearance="secondary"
                             icon={<DeleteRegular />}
                             onClick={handleRemove}
+                            style={{ minWidth: 'fit-content' }}
                         >
                             Удалить выбранные
                         </Button>
@@ -264,39 +270,42 @@ const ClientDashboard: React.FC = () => {
                     </>
                 )}
             </div>
-            <DataGrid
-                items={users}
-                columns={columns}
-                sortable
-                selectionMode="multiselect"
-                selectedItems={selectedItems}
-                onSelectionChange={handleSelectionChange}
-            >
-                <DataGridHeader>
-                    <DataGridRow>
-                        {({ renderHeaderCell }) => (
-                            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-                        )}
-                    </DataGridRow>
-                </DataGridHeader>
-                {loading &&
-                    <Spinner />
-                }
-                {!loading && <DataGridBody<User>>
-                    {({ item, rowId }) => (
-                        <DataGridRow<User>
-                            key={rowId}
-                            selectionCell={{
-                                checkboxIndicator: { "aria-label": "Select row" },
-                            }}
-                        >
-                            {({ renderCell }) => (
-                                <DataGridCell>{renderCell(item)}</DataGridCell>
+            <div style={{ overflowX: 'auto', width: '100%' }}>
+                <DataGrid
+                    items={users}
+                    columns={columns}
+                    sortable
+                    selectionMode="multiselect"
+                    resizableColumns={true}
+                    selectedItems={selectedItems}
+                    onSelectionChange={handleSelectionChange}
+                >
+                    <DataGridHeader>
+                        <DataGridRow>
+                            {({ renderHeaderCell }) => (
+                                <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
                             )}
                         </DataGridRow>
-                    )}
-                </DataGridBody>}
-            </DataGrid>
+                    </DataGridHeader>
+                    {loading &&
+                        <Spinner />
+                    }
+                    {!loading && <DataGridBody<User>>
+                        {({ item, rowId }) => (
+                            <DataGridRow<User>
+                                key={rowId}
+                                selectionCell={{
+                                    checkboxIndicator: { "aria-label": "Select row" },
+                                }}
+                            >
+                                {({ renderCell }) => (
+                                    <DataGridCell>{renderCell(item)}</DataGridCell>
+                                )}
+                            </DataGridRow>
+                        )}
+                    </DataGridBody>}
+                </DataGrid>
+            </div>
         </div>
     );
 };

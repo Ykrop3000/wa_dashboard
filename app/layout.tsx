@@ -13,7 +13,11 @@ import '@/styles/global.css';
 
 const useStyles = makeStyles({
   container: {
-    ...shorthands.padding('20px')
+    ...shorthands.padding('20px'),
+    '@media (max-width: 600px)': {
+      paddingLeft: 0,
+      paddingRight: 0
+    },
   }
 });
 

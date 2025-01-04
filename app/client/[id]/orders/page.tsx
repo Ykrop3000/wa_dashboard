@@ -147,34 +147,35 @@ const OrdersPage: React.FC = () => {
                     onKeyDown={handleKeyDown} // Handle Enter key press
                     style={{ marginRight: '1rem' }}
                 />
-                {/* <Button appearance="primary" onClick={() => router.push(`/client/${id}/orders/create`)}>
-                    Add New Order
-                </Button> */}
             </div>
-            <DataGrid
-                items={orders}
-                columns={columns}
-                sortable
-            >
-                <DataGridHeader>
-                    <DataGridRow>
-                        {({ renderHeaderCell }) => (
-                            <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-                        )}
-                    </DataGridRow>
-                </DataGridHeader>
-                <DataGridBody<Order>>
-                    {({ item, rowId }) => (
-                        <DataGridRow<Order>
-                            key={rowId}
-                        >
-                            {({ renderCell }) => (
-                                <DataGridCell>{renderCell(item)}</DataGridCell>
+            <div style={{ overflowX: 'auto', width: '100%' }}> {/* Mobile style container for DataGrid */}
+                <DataGrid
+                    resizableColumns={true}
+                    items={orders}
+                    columns={columns}
+                    sortable
+                    style={{ minWidth: '600px' }} // Ensure minimum width for DataGrid
+                >
+                    <DataGridHeader>
+                        <DataGridRow>
+                            {({ renderHeaderCell }) => (
+                                <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
                             )}
                         </DataGridRow>
-                    )}
-                </DataGridBody>
-            </DataGrid>
+                    </DataGridHeader>
+                    <DataGridBody<Order>>
+                        {({ item, rowId }) => (
+                            <DataGridRow<Order>
+                                key={rowId}
+                            >
+                                {({ renderCell }) => (
+                                    <DataGridCell>{renderCell(item)}</DataGridCell>
+                                )}
+                            </DataGridRow>
+                        )}
+                    </DataGridBody>
+                </DataGrid>
+            </div>
             <div style={{ textAlign: 'center', paddingTop: '12px' }}>
                 <Button onClick={() => loadNextPage()}>
                     Загрузить больше
