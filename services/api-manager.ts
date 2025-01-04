@@ -123,6 +123,10 @@ export class ApiManager {
         const response = await this.api.post<string>(`/users/${userId}/whatsapp_code`);
         return response.data
     }
+    async getQR(userId: number): Promise<string> {
+        const response = await this.api.post<string>(`/users/${userId}/whatsapp_qr`);
+        return response.data
+    }
 
     // Template endpoints
     async getTemplateSchema(): Promise<RJSFSchema> {

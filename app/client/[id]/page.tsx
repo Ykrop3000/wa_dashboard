@@ -25,7 +25,7 @@ import { FormContextType } from '@rjsf/utils';
 import { apiManager } from '@/services';
 import Detail from '@/components/Detail'
 import GetCodeDialog from '@/components/GetCodeDialog'
-
+import GetQrDialog from '@/components/GetQrDialog';
 
 
 const CreateInstanceDialog: React.FC<{
@@ -52,6 +52,7 @@ export default function UserDetail() {
     const router = useRouter();
     const [formData, setFormData] = useState<FormContextType>({});
     const [codeDialogOpen, setCodeDialogOpen] = useState<boolean>(false);
+    const [qrDialogOpen, setQrDialogOpen] = useState<boolean>(false);
     const [instanceDilogOpen, setInstanceDialogOpen] = useState<boolean>(false);
     const [createInstanceTaskId, setCreateInstanceTaskId] = useState<string>()
 
@@ -115,6 +116,7 @@ export default function UserDetail() {
 
     return (
         <>
+            <GetQrDialog open={qrDialogOpen} onOpenChange={(e, data) => setQrDialogOpen(data.open)} />
             <GetCodeDialog open={codeDialogOpen} onOpenChange={(e, data) => setCodeDialogOpen(data.open)} />
             <CreateInstanceDialog open={instanceDilogOpen} onOpenChange={(e, data) => setInstanceDialogOpen(data.open)} />
             <Detail
@@ -158,6 +160,9 @@ export default function UserDetail() {
                                 </MenuItem>
                                 <MenuItem onClick={() => setCodeDialogOpen(true)}>
                                     Получить код
+                                </MenuItem>
+                                <MenuItem onClick={() => setCodeDialogOpen(true)}>
+                                    Получить qr код
                                 </MenuItem>
                             </MenuList>
                         </MenuPopover>

@@ -10,6 +10,7 @@ import {
     DialogActions,
     DialogContent,
     Button,
+    Spinner
 } from "@fluentui/react-components";
 
 import { apiManager } from "@/services";
@@ -21,10 +22,9 @@ const GetCodeDialog: React.FC<{
     onOpenChange: DialogOpenChangeEventHandler;
 }> = ({ open, onOpenChange }) => {
     const params = useParams();
-    const [code, setCode] = useState<string>('')
+    const [code, setCode] = useState<string | undefined>()
 
     const getCode = async () => {
-        setCode('Fetching code...')
         try {
             const code = await apiManager.getCode(Number(params.id))
             setCode(code)
@@ -39,6 +39,7 @@ const GetCodeDialog: React.FC<{
                 <DialogBody>
                     <DialogTitle>Код:</DialogTitle>
                     <DialogContent>
+                        {code && <Spinner />}
                         {code}
                     </DialogContent>
                     <DialogActions>
