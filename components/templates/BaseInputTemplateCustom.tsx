@@ -28,7 +28,7 @@ const useStyles = makeStyles({
  * @param props - The `WidgetProps` for this template
  */
 export default function BaseInputTemplate<
-  T = any,
+  T,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = any
 >(props: BaseInputTemplateProps<T, S, F>) {

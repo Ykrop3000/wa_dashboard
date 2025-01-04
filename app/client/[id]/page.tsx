@@ -161,7 +161,7 @@ export default function UserDetail() {
                                 <MenuItem onClick={() => setCodeDialogOpen(true)}>
                                     Получить код
                                 </MenuItem>
-                                <MenuItem onClick={() => setCodeDialogOpen(true)}>
+                                <MenuItem onClick={() => setQrDialogOpen(true)}>
                                     Получить qr код
                                 </MenuItem>
                             </MenuList>

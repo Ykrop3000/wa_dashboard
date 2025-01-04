@@ -39,7 +39,7 @@ const GetCodeDialog: React.FC<{
                 <DialogBody>
                     <DialogTitle>Код:</DialogTitle>
                     <DialogContent>
-                        {code && <Spinner />}
+                        {!code && <Spinner />}
                         {code}
                     </DialogContent>
                     <DialogActions>
