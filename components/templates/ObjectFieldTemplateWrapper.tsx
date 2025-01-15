@@ -77,15 +77,25 @@ const ObjectFieldTemplateWrapper = (props: ObjectFieldTemplateProps) => {
         <>
             {Object.keys(groups).map((group_name) => {
                 const childProps = getPropsForGroup(groups[group_name], props);
-                return (
-                    <Card className={styles.section} key={group_name}>
-                        <CardHeader header={<Text size={400} weight='semibold'>{group_name}</Text>} />
+                if (group_name) {
+                    return (
+                        <Card className={styles.section} key={group_name}>
+                            <CardHeader header={<Text size={400} weight='semibold'>{group_name}</Text>} />
+                            <ObjectFieldTemplate
+                                {...childProps}
+                                key={group_name}
+                            />
+                        </Card>
+                    );
+                } else {
+                    return (
                         <ObjectFieldTemplate
                             {...childProps}
                             key={group_name}
                         />
-                    </Card>
-                );
+                    );
+                }
+
             })}
         </>
     );
