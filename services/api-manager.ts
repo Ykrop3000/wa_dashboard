@@ -8,6 +8,7 @@ import { Template, TemplatePeriodNotification } from '@/types/template';
 import { OrdersGroup } from '@/types/orders_group';
 import { BillingPlan } from '@/types/billing_plan';
 import { TaskStatus } from '@/types/task'
+import { OrdersCountPrice } from '@/types/statistic';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -207,6 +208,7 @@ export class ApiManager {
         return response.data;
     }
 
+
     // Auth endpoints
     async login(username: string, password: string): Promise<{ access_token: string; token_type: string }> {
         const formData = new FormData();
@@ -241,6 +243,10 @@ export class ApiManager {
         const response = await this.api.post(`/tasks/status/${task_id}`)
         return response.data
     }
+    async stopTask(task_id: string): Promise<TaskStatus> {
+        const response = await this.api.post(`/tasks/status/${task_id}/stop`)
+        return response.data
+    }
 
     // Billing plans
     async getBillingPlanSchema(): Promise<RJSFSchema> {
@@ -269,4 +275,17 @@ export class ApiManager {
         const response = await this.api.delete<BillingPlan>(`/billing_plans/${userId}`);
         return response.data;
     }
+
+
+    // Stat endpoints
+    async getOrdersCountPriceStatistics(user_id: number,
+        startDate: number = Math.ceil(Date.now() / 1000) - 60 * 60 * 24 * 30,
+        endDate: number = Math.ceil(Date.now() / 1000)): Promise<OrdersCountPrice[]> {
+        const response = await this.api.post<OrdersCountPrice[]>(`/stat/orders?user_id=${user_id}`, {
+            start_date: startDate,
+            end_date: endDate,
+        });
+        return response.data;
+    }
+
 }

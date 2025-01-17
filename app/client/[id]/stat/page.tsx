@@ -1,62 +1,96 @@
 'use client'
 
-import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend } from 'chart.js';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import {
+    Chart as ChartJS,
+    LineElement,
+    BarElement,
+    PointElement,
+    LinearScale,
+    CategoryScale,
+    Title,
+    Tooltip,
+    Legend,
+    ChartData
+} from 'chart.js';
+import { Chart } from "react-chartjs-2";
+
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
-import { Card, CardHeader } from '@fluentui/react-components';
+import { Card, CardHeader, Field, makeStyles, Button, CardFooter } from '@fluentui/react-components';
+import { DatePicker } from "@fluentui/react-datepicker-compat";
+import { OrdersCountPrice } from '@/types/statistic';
+import { apiManager } from '@/services';
 
 // Register necessary components for Chart.js
-ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
+ChartJS.register(
+    LineElement,
+    BarElement,
+    PointElement,
+    LinearScale,
+    CategoryScale,
+    Title,
+    Tooltip,
+    Legend
+);
 
-// Sample data
-const orderData = [
-    { "orders_count": 22, "date": "2024-11-27" },
-    { "orders_count": 8, "date": "2024-11-28" },
-    { "orders_count": 10, "date": "2024-11-29" },
-    { "orders_count": 5, "date": "2024-11-30" },
-    { "orders_count": 7, "date": "2024-12-01" },
-    { "orders_count": 14, "date": "2024-12-02" },
-    { "orders_count": 16, "date": "2024-12-03" },
-    { "orders_count": 17, "date": "2024-12-04" },
-    { "orders_count": 15, "date": "2024-12-05" },
-    { "orders_count": 13, "date": "2024-12-06" },
-    { "orders_count": 3, "date": "2024-12-07" },
-    { "orders_count": 4, "date": "2024-12-08" },
-    { "orders_count": 14, "date": "2024-12-09" },
-    { "orders_count": 14, "date": "2024-12-10" },
-    { "orders_count": 14, "date": "2024-12-11" },
-    { "orders_count": 20, "date": "2024-12-12" },
-    { "orders_count": 20, "date": "2024-12-13" },
-    { "orders_count": 11, "date": "2024-12-14" },
-    { "orders_count": 6, "date": "2024-12-15" },
-    { "orders_count": 17, "date": "2024-12-16" },
-    { "orders_count": 28, "date": "2024-12-17" },
-    { "orders_count": 25, "date": "2024-12-18" },
-    { "orders_count": 21, "date": "2024-12-19" },
-    { "orders_count": 16, "date": "2024-12-20" },
-    { "orders_count": 12, "date": "2024-12-21" },
-    { "orders_count": 5, "date": "2024-12-22" },
-    { "orders_count": 21, "date": "2024-12-23" },
-    { "orders_count": 30, "date": "2024-12-24" },
-    { "orders_count": 30, "date": "2024-12-25" },
-    { "orders_count": 29, "date": "2024-12-26" }
-];
+const useStyles = makeStyles({
+    section: {
+        alignItems: "center",
+        flexWrap: "wrap",
+        marginBottom: "12px"
+    },
+})
 
 const StatisticsPage: React.FC = () => {
+    const styles = useStyles();
+    const params = useParams();
+
+    const [ordersCountPrice, setOrdersCountPrice] = useState<OrdersCountPrice[]>([])
+    const [startDate, setStartDate] = useState<Date | null | undefined>(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)); // Default to current date - 30 days
+    const [endDate, setEndDate] = useState<Date | null | undefined>(new Date());
+
+    const fetchOrdersCountPrice = async () => {
+        console.log(startDate, endDate)
+        const data = await apiManager.getOrdersCountPriceStatistics(
+            Number(params.id),
+            Math.ceil((startDate ? startDate.getTime() : new Date().getTime()) / 1000),
+            Math.ceil((endDate ? endDate.getTime() : new Date().getTime()) / 1000)
+        )
+        setOrdersCountPrice(data)
+    }
+
+    const setParams = () => {
+        fetchOrdersCountPrice()
+    }
+
+    useEffect(() => {
+        fetchOrdersCountPrice();
+    }, [params.id])
+
     // Calculate total orders
-    const totalOrders = orderData.reduce((acc, order) => acc + order.orders_count, 0);
+    const totalOrders = ordersCountPrice.reduce((acc, order) => acc + order.orders_count, 0);
 
     // Prepare data for the chart
-    const chartData = {
-        labels: orderData.map(order => order.date),
+    const chartData: ChartData<'line' | 'bar', number[], string> = {
+        labels: ordersCountPrice.map(order => order.date),
         datasets: [
             {
                 label: 'Orders Count',
-                data: orderData.map(order => order.orders_count),
+                data: ordersCountPrice.map(order => order.orders_count),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                type: 'line' as const,
                 fill: true,
+                yAxisID: 'count_y'
+            },
+            {
+                label: 'Orders price',
+                data: ordersCountPrice.map(order => order.price),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                type: 'bar' as const,
+                yAxisID: 'price_y'
             },
         ],
     };
@@ -66,9 +100,31 @@ const StatisticsPage: React.FC = () => {
         scales: {
             x: {
                 type: 'category' as const,
+                title: {
+                    display: true,
+                    text: 'Date'
+                }
             },
-            y: {
-                beginAtZero: true,
+            price_y: {
+                type: 'linear' as const,
+                display: true,
+                position: 'left' as const,
+                title: {
+                    display: true,
+                    text: 'Price (₸)'
+                }
+            },
+            count_y: {
+                type: 'linear' as const,
+                display: true,
+                position: 'right' as const,
+                grid: {
+                    drawOnChartArea: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Number of Orders'
+                }
             },
         },
         plugins: {
@@ -82,11 +138,36 @@ const StatisticsPage: React.FC = () => {
         },
     };
 
+    const handleStartDateChange = (date: Date | null | undefined) => {
+        setStartDate(date);
+    };
+
+    const handleEndDateChange = (date: Date | null | undefined) => {
+        setEndDate(date);
+    };
+
     return (
         <BackButtonLayout title={"Статистика"}>
-            <Card>
+            <Card orientation="horizontal" className={styles.section}>
+                <Field label="Start date">
+                    <DatePicker
+                        value={startDate}
+                        onSelectDate={handleStartDateChange}
+                    />
+                </Field>
+                <Field label="End date">
+                    <DatePicker
+                        value={endDate}
+                        onSelectDate={handleEndDateChange}
+                    />
+                </Field>
+                <CardFooter>
+                    <Button onClick={setParams}>Применить</Button>
+                </CardFooter>
+            </Card>
+            <Card className={styles.section}>
                 <CardHeader>Total Orders: {totalOrders}</CardHeader>
-                <Line data={chartData} options={chartOptions} />
+                <Chart type='bar' data={chartData} options={chartOptions} />
             </Card>
         </BackButtonLayout>
     );
