@@ -2,18 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import {
-    Chart as ChartJS,
-    LineElement,
-    BarElement,
-    PointElement,
-    LinearScale,
-    CategoryScale,
-    Title,
-    Tooltip,
-    Legend,
-    ChartData
-} from 'chart.js';
+import { ChartData, Chart as ChartJS, registerables } from 'chart.js';
 import { Chart } from "react-chartjs-2";
 
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
@@ -23,16 +12,7 @@ import { OrdersCountPrice } from '@/types/statistic';
 import { apiManager } from '@/services';
 
 // Register necessary components for Chart.js
-ChartJS.register(
-    LineElement,
-    BarElement,
-    PointElement,
-    LinearScale,
-    CategoryScale,
-    Title,
-    Tooltip,
-    Legend
-);
+ChartJS.register(...registerables);
 
 const useStyles = makeStyles({
     section: {
