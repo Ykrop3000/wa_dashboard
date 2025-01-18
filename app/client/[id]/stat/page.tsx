@@ -61,14 +61,14 @@ const StatisticsPage: React.FC = () => {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 type: 'line' as const,
-                fill: true,
+                fill: false,
                 yAxisID: 'count_y'
             },
             {
                 label: 'Orders price',
                 data: ordersCountPrice.map(order => order.price),
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(235, 109, 84, 1)',
+                backgroundColor: 'rgba(235, 135, 84, 0.2)',
                 type: 'bar' as const,
                 yAxisID: 'price_y'
             },
