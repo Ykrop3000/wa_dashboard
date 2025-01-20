@@ -8,7 +8,7 @@ import { Template, TemplatePeriodNotification } from '@/types/template';
 import { OrdersGroup } from '@/types/orders_group';
 import { BillingPlan } from '@/types/billing_plan';
 import { TaskStatus } from '@/types/task'
-import { OrdersCountPrice } from '@/types/statistic';
+import { AvgPrice, OrdersCountPrice } from '@/types/statistic';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -280,12 +280,25 @@ export class ApiManager {
     // Stat endpoints
     async getOrdersCountPriceStatistics(user_id: number,
         startDate: number = Math.ceil(Date.now() / 1000) - 60 * 60 * 24 * 30,
-        endDate: number = Math.ceil(Date.now() / 1000)): Promise<OrdersCountPrice[]> {
+        endDate: number = Math.ceil(Date.now() / 1000),
+        status: string[]
+    ): Promise<OrdersCountPrice[]> {
         const response = await this.api.post<OrdersCountPrice[]>(`/stat/orders?user_id=${user_id}`, {
             start_date: startDate,
             end_date: endDate,
+            status: status
         });
         return response.data;
     }
-
+    async getAvgPriceStatistics(user_id: number,
+        startDate: number = Math.ceil(Date.now() / 1000) - 60 * 60 * 24 * 30,
+        endDate: number = Math.ceil(Date.now() / 1000),
+        status: string[]): Promise<AvgPrice> {
+        const response = await this.api.post<AvgPrice>(`/stat/orders/avg_price?user_id=${user_id}`, {
+            start_date: startDate,
+            end_date: endDate,
+            status: status
+        });
+        return response.data
+    }
 }

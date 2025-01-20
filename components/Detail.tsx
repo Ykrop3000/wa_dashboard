@@ -138,6 +138,7 @@ const Detail: React.FC<{
     const handleSubmit = async (data: FormContextType, e: React.FormEvent) => {
         e.preventDefault()
         try {
+            console.log(data.formData)
             setFormData(data.formData)
             await handleUpdate(data.formData);
             setEditing(false)
