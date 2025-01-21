@@ -9,6 +9,7 @@ import { OrdersGroup } from '@/types/orders_group';
 import { BillingPlan } from '@/types/billing_plan';
 import { TaskStatus } from '@/types/task'
 import { AvgPrice, OrdersCountPrice } from '@/types/statistic';
+import { Customer } from '@/types/customer';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -298,6 +299,17 @@ export class ApiManager {
             start_date: startDate,
             end_date: endDate,
             status: status
+        });
+        return response.data
+    }
+    async getCustomerStatistics(user_id: number,
+        startDate: number = Math.ceil(Date.now() / 1000) - 60 * 60 * 24 * 30,
+        endDate: number = Math.ceil(Date.now() / 1000),
+        sort_by: string = 'desc'): Promise<Customer[]> {
+        const response = await this.api.post<Customer[]>(`/stat/customers?user_id=${user_id}`, {
+            start_date: startDate,
+            end_date: endDate,
+            sort_by: sort_by
         });
         return response.data
     }

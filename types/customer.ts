@@ -1,7 +1,9 @@
 export interface Customer {
-    id: string
+    id: number
     name: string
-    cellPhone: string
+    phone: string
     first_name: string
     last_name: string
+    total_spent?: number
+    orders_count?: number
 }

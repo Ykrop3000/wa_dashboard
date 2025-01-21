@@ -2,15 +2,19 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+
 import { ChartData, Chart as ChartJS, registerables } from 'chart.js';
 import { Chart } from "react-chartjs-2";
 import { SelectionEvents, OptionOnSelectData } from '@fluentui/react-components';
-
-import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
 import { Card, CardHeader, Field, makeStyles, Button, CardFooter, Text, Dropdown, Option } from '@fluentui/react-components';
 import { DatePicker } from "@fluentui/react-datepicker-compat";
+
+import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
+import CustomerDashboard from '@/components/CustomerDashboard';
+import { numberWithSpaces } from '@/utils/price'
 import { OrdersCountPrice, GroupStatuses } from '@/types/statistic';
 import { apiManager } from '@/services';
+import { Customer } from '@/types/customer';
 
 // Register necessary components for Chart.js
 ChartJS.register(...registerables);
@@ -31,15 +35,13 @@ const useStyles = makeStyles({
     }
 })
 
-function numberWithSpaces(x: number) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
 
 const StatisticsPage: React.FC = () => {
     const styles = useStyles();
     const params = useParams();
 
     const [ordersCountPrice, setOrdersCountPrice] = useState<OrdersCountPrice[]>([])
+    const [customers, setCustomers] = useState<Customer[]>([])
     const [avgPrice, setAvgPrice] = useState<number>(0)
     const [startDate, setStartDate] = useState<Date | null | undefined>(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)); // Default to current date - 30 days
     const [endDate, setEndDate] = useState<Date | null | undefined>(new Date());
@@ -69,9 +71,19 @@ const StatisticsPage: React.FC = () => {
         setAvgPrice(data.avg_price)
     }
 
+    const fetchCustomers = async () => {
+        const data = await apiManager.getCustomerStatistics(
+            Number(params.id),
+            Math.ceil((startDate ? startDate.getTime() : new Date().getTime()) / 1000),
+            Math.ceil((endDate ? endDate.getTime() : new Date().getTime()) / 1000),
+        )
+        setCustomers(data)
+    }
+
     const setParams = () => {
         fetchOrdersCountPrice()
         fetchAvgPrice()
+        fetchCustomers()
     }
 
     useEffect(() => {
@@ -207,6 +219,9 @@ const StatisticsPage: React.FC = () => {
 
             <Card className={styles.section}>
                 <Chart type='bar' data={chartData} options={chartOptions} />
+            </Card>
+            <Card className={styles.section} style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                <CustomerDashboard customers={customers} />
             </Card>
         </BackButtonLayout>
     );
