@@ -17,9 +17,10 @@ import {
     DialogTitle,
     Dialog,
     Spinner,
+    Button,
 } from '@fluentui/react-components';
 import { DialogOpenChangeEventHandler } from '@fluentui/react-dialog'
-import { MoreHorizontal24Filled } from "@fluentui/react-icons"
+import { MoreHorizontal24Filled, AlignBottom24Regular } from "@fluentui/react-icons"
 import { FormContextType } from '@rjsf/utils';
 
 import { apiManager } from '@/services';
@@ -128,6 +129,7 @@ export default function UserDetail() {
                 handleUpdate={handleUpdate}
                 formData={formData}
                 toolbar={<>
+                    <></>
                     {(!formData.green_api_instance_id || !formData.green_api_instance_token) &&
                         <ToolbarButton
                             aria-label="Create whatsapp instance"
@@ -167,6 +169,14 @@ export default function UserDetail() {
                             </MenuList>
                         </MenuPopover>
                     </Menu>
+
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
+                        <Button
+                            icon={<AlignBottom24Regular />}
+                            aria-label='Аналитика'
+                            onClick={() => router.push(`/client/${params.id}/stat`)}
+                        />
+                    </div>
                 </>}
             />
         </>
