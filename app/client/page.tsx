@@ -132,7 +132,14 @@ const ClientDashboard: React.FC = () => {
             columnId: 'count_messages_sent',
             compare: (a, b) => (a.count_messages_sent ?? 0) - (b.count_messages_sent ?? 0),
             renderHeaderCell: () => 'Сообщений сегодня',
-            renderCell: (item) => item.count_messages_sent,
+            renderCell: (item) => (
+                <Badge
+                    appearance="filled"
+                    color={item.count_messages_sent === item.limit_messages_per_day ? 'danger' : 'informative'}
+                >
+                    {item.count_messages_sent}
+                </Badge>
+            ),
         }),
         createTableColumn<User>({
             columnId: 'billing_plan_end',
