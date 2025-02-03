@@ -313,4 +313,16 @@ export class ApiManager {
         });
         return response.data
     }
+
+    async getOrdersXlsx(user_id: number,
+        startDate: number = Math.ceil(Date.now() / 1000) - 60 * 60 * 24 * 30,
+        endDate: number = Math.ceil(Date.now() / 1000),
+        sort_by: string = 'desc'): Promise<ArrayBuffer> {
+        const response = await this.api.post<ArrayBuffer>(`/stat/orders_to_excel?user_id=${user_id}`, {
+            start_date: startDate,
+            end_date: endDate,
+            sort_by: sort_by
+        }, { responseType: 'arraybuffer' });
+        return response.data
+    }
 }

@@ -37,6 +37,8 @@ const useStyles = makeStyles({
 
 
 const StatisticsPage: React.FC = () => {
+    const filename = "output.xlsx";
+
     const styles = useStyles();
     const params = useParams();
 
@@ -171,8 +173,35 @@ const StatisticsPage: React.FC = () => {
         setStatuses(selectedOptions);
         console.log(selectedOptions)
     };
+
+
+    const handleDownloadOrders = async () => {
+        const data = await apiManager.getOrdersXlsx(Number(params.id),
+            Math.ceil((startDate ? startDate.getTime() : new Date().getTime()) / 1000),
+            Math.ceil((endDate ? endDate.getTime() : new Date().getTime()) / 1000))
+        // Create a Blob from the response data
+        const blob = new Blob([data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        console.log(blob)
+        // Create a temporary download link
+        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        link.href = url;
+        link.download = filename;
+
+        // Append the link to the document and trigger the click event
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up: revoke the object URL and remove the link
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+    }
+
     return (
         <BackButtonLayout title={"Статистика"}>
+            <Button onClick={handleDownloadOrders}>Download</Button>
             <Card orientation="horizontal" className={styles.section}>
                 <Field label="Статус заказа">
                     <Dropdown multiselect={true} defaultSelectedOptions={["completed"]} onOptionSelect={handleStatusChange}>
