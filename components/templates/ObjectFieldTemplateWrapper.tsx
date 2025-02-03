@@ -89,7 +89,7 @@ const ObjectFieldTemplateWrapper = (props: ObjectFieldTemplateProps) => {
                     );
                 } else {
                     return (
-                        <Card className={styles.section}>
+                        <Card className={styles.section} key={group_name}>
                             <ObjectFieldTemplate
                                 {...childProps}
                                 key={group_name}
