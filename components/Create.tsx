@@ -30,6 +30,7 @@ const Create: React.FC<{
 
     const uiSchema = {
         "ui:options": { label: false },
+        "id": { "ui:widget": "hidden" },
         "template": {
             "ui:widget": (props: WidgetProps) => {
                 const { value = "", onChange, label, readonly, required } = props;
