@@ -89,7 +89,13 @@ const Detail: React.FC<{
     const uiSchema = {
         "ui:options": { label: false },
         "ui:submitButtonOptions": { norender: true },
-        "id": { "ui:widget": "hidden" },
+        "green_api_data": {
+            "items": {
+                "id": {
+                    "ui:widget": "hidden"
+                }
+            }
+        },
         "template": {
             "ui:widget": (props: WidgetProps) => {
                 const { value = "", onChange, label, readonly, required } = props;
