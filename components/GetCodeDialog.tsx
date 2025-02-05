@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation'
 import {
     Dialog,
     DialogTrigger,
@@ -21,13 +20,13 @@ import { useState } from 'react';
 const GetCodeDialog: React.FC<{
     open: boolean | undefined;
     onOpenChange: DialogOpenChangeEventHandler;
-}> = ({ open, onOpenChange }) => {
-    const params = useParams();
+    id: number
+}> = ({ open, onOpenChange, id }) => {
     const [code, setCode] = useState<string | undefined>()
 
     const getCode = async () => {
         try {
-            const code = await apiManager.getCode(Number(params.id))
+            const code = await apiManager.getCode(id)
             setCode(code)
         } catch (error) {
             console.log("Error bind whatsapp:", error)

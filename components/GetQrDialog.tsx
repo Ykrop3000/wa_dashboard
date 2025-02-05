@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation'
 import {
     Dialog,
     DialogTrigger,
@@ -20,13 +19,13 @@ import { useState } from 'react';
 const GetQrDialog: React.FC<{
     open: boolean | undefined;
     onOpenChange: DialogOpenChangeEventHandler;
-}> = ({ open, onOpenChange }) => {
-    const params = useParams();
+    id: number
+}> = ({ open, onOpenChange, id }) => {
     const [qr, setQr] = useState<string | undefined>()
 
     const getCode = async () => {
         try {
-            const qr = await apiManager.getQR(Number(params.id))
+            const qr = await apiManager.getQR(id)
             setQr(qr)
         } catch (error) {
             console.log("Error bind whatsapp:", error)

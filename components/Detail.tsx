@@ -16,7 +16,7 @@ import { Edit12Regular, Delete12Regular } from "@fluentui/react-icons"
 
 import { withTheme } from '@rjsf/core';
 import Form from '@rjsf/core';
-import { RJSFSchema, FormContextType, WidgetProps } from '@rjsf/utils';
+import { RJSFSchema, FormContextType, WidgetProps, ArrayFieldTemplateItemType } from '@rjsf/utils';
 import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
@@ -73,8 +73,9 @@ const Detail: React.FC<{
     handleRemove: () => void,
     handleUpdate: (data: FormContextType) => void,
     formData: FormContextType,
-    toolbar?: React.ReactNode
-}> = ({ title, getSchema, getFormData, setFormData, handleRemove, handleUpdate, formData, toolbar }) => {
+    toolbar?: React.ReactNode,
+    arrayFieldItemTemplate?: (props: ArrayFieldTemplateItemType) => React.ReactNode
+}> = ({ title, getSchema, getFormData, setFormData, handleRemove, handleUpdate, formData, toolbar, arrayFieldItemTemplate }) => {
     const params = useParams();
     const [isEditing, setEditing] = useState<boolean>(false)
     const [removeDilogOpen, setRemoveDilogOpen] = useState<boolean>(false)
@@ -229,6 +230,7 @@ const Detail: React.FC<{
                             BaseInputTemplate: BaseInputTemplateCustom,
                             // FieldTemplate: FieldTemplateCustom,
                             // WrapIfAdditionalTemplate: WrapIfAdditionalTemplateCustom
+                            ArrayFieldItemTemplate: arrayFieldItemTemplate
                         }}
                     />
                 </>}

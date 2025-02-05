@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import {
@@ -11,80 +11,24 @@ import {
     MenuItem,
     Menu,
     MenuPopover,
-    DialogContent,
-    DialogBody,
-    DialogSurface,
-    DialogTitle,
-    Dialog,
-    Spinner,
     Button,
 } from '@fluentui/react-components';
-import { DialogOpenChangeEventHandler } from '@fluentui/react-dialog'
 import { MoreHorizontal24Filled, AlignBottom24Regular } from "@fluentui/react-icons"
 import { FormContextType } from '@rjsf/utils';
 
 import { apiManager } from '@/services';
 import Detail from '@/components/Detail'
-import GetCodeDialog from '@/components/GetCodeDialog'
-import GetQrDialog from '@/components/GetQrDialog';
+import ArrayFieldItemTemplateCustom from '@/components/templates/ArrayFieldItemTemplateCustom'
 
 
-const CreateInstanceDialog: React.FC<{
-    open: boolean | undefined;
-    onOpenChange: DialogOpenChangeEventHandler;
-}> = ({ open, onOpenChange }) => {
-    return (
-        <Dialog surfaceMotion={null} open={open} onOpenChange={onOpenChange}>
-            <DialogSurface>
-                <DialogBody>
-                    <DialogTitle>Создание инстанса...</DialogTitle>
-                    <DialogContent>
-                        <Spinner />
-                    </DialogContent>
-                </DialogBody>
-            </DialogSurface>
-        </Dialog>
-    );
-};
 
 
 export default function UserDetail() {
     const params = useParams();
     const router = useRouter();
     const [formData, setFormData] = useState<FormContextType>({});
-    const [codeDialogOpen, setCodeDialogOpen] = useState<boolean>(false);
-    const [qrDialogOpen, setQrDialogOpen] = useState<boolean>(false);
-    const [instanceDilogOpen, setInstanceDialogOpen] = useState<boolean>(false);
-    const [createInstanceTaskId, setCreateInstanceTaskId] = useState<string>()
 
 
-    useEffect(() => {
-        let intervalId: NodeJS.Timeout;
-
-        if (createInstanceTaskId) {
-            intervalId = setInterval(async () => {
-                try {
-                    const taskStatus = await apiManager.getTaskStatus(createInstanceTaskId);
-                    if (taskStatus.status === 'SUCCESS') {
-                        setInstanceDialogOpen(false);
-                        setCreateInstanceTaskId(undefined);
-                        router.refresh();
-                    } else if (taskStatus.status === 'PENDING') {
-                        setInstanceDialogOpen(false);
-                        setCreateInstanceTaskId(undefined);
-                    }
-                } catch (error) {
-                    console.error('Error checking task status:', error);
-                }
-            }, 2000);
-        }
-
-        return () => {
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
-        };
-    }, [createInstanceTaskId, router]);
 
     const handleUpdate = async (data: FormContextType) => {
         try {
@@ -104,22 +48,9 @@ export default function UserDetail() {
 
     }
 
-    const bindWhatsapp = async () => {
-        try {
-            setInstanceDialogOpen(true);
-            const taskId = await apiManager.bindWhatsapp(Number(params.id));
-            setCreateInstanceTaskId(taskId);
-        } catch (error) {
-            console.log("Error bind whatsapp:", error)
-        }
-    }
-
 
     return (
         <>
-            <GetQrDialog open={qrDialogOpen} onOpenChange={(e, data) => setQrDialogOpen(data.open)} />
-            <GetCodeDialog open={codeDialogOpen} onOpenChange={(e, data) => setCodeDialogOpen(data.open)} />
-            <CreateInstanceDialog open={instanceDilogOpen} onOpenChange={(e, data) => setInstanceDialogOpen(data.open)} />
             <Detail
                 title='Клиент'
                 getSchema={async () => await apiManager.getUserSchema()}
@@ -128,9 +59,9 @@ export default function UserDetail() {
                 handleRemove={handleRemove}
                 handleUpdate={handleUpdate}
                 formData={formData}
+                arrayFieldItemTemplate={ArrayFieldItemTemplateCustom}
                 toolbar={<>
-                    <></>
-                    {(!formData.green_api_instance_id || !formData.green_api_instance_token) &&
+                    {/* {(!formData.green_api_instance_id || !formData.green_api_instance_token) &&
                         <ToolbarButton
                             aria-label="Create whatsapp instance"
                             appearance='transparent'
@@ -138,7 +69,7 @@ export default function UserDetail() {
                         >
                             Create whatsapp instance
                         </ToolbarButton>
-                    }
+                    } */}
 
                     <ToolbarDivider />
                     <Menu>
@@ -160,12 +91,7 @@ export default function UserDetail() {
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/orders_groups`)}>
                                     Группы заказов
                                 </MenuItem>
-                                <MenuItem onClick={() => setCodeDialogOpen(true)}>
-                                    Получить код
-                                </MenuItem>
-                                <MenuItem onClick={() => setQrDialogOpen(true)}>
-                                    Получить qr код
-                                </MenuItem>
+
                             </MenuList>
                         </MenuPopover>
                     </Menu>
