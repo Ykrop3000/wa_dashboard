@@ -70,9 +70,10 @@ const ClientDashboard: React.FC = () => {
         }),
         createTableColumn<User>({
             columnId: 'phone',
-            compare: (a, b) => a.phone.localeCompare(b.phone),
             renderHeaderCell: () => 'Телефон',
-            renderCell: (item) => item.phone,
+            renderCell: (item) => item.green_api_data
+                .map(data => data.phone)
+                .join(', '),
         }),
         createTableColumn<User>({
             columnId: 'authorized',

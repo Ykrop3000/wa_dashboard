@@ -1,10 +1,13 @@
 import { Template } from '@/types/template';
 import { Order } from '@/types/order';
 
+export interface GreenApiData {
+    phone: string
+}
+
 export interface User {
     id: number;
     name: string;
-    phone: string;
     username: string;
     role: string;
 
@@ -20,16 +23,7 @@ export interface User {
     telegram_id?: number;
     telegram_password?: string;
 
-    // Kaspi fields
-    kaspi_username?: string;
-    kaspi_password?: string;
-    kaspi_api_key?: string;
-
-    // Green-api fields
-    green_api_instance_id?: string;
-    green_api_instance_token?: string;
-    green_api_url?: string;
-    green_api_media_url?: string;
+    green_api_data: GreenApiData[];
 
     // Status fields
     authorized?: boolean;
