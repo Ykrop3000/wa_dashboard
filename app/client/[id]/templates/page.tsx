@@ -43,17 +43,12 @@ const TemplatesPage: React.FC = () => {
     };
 
     const columns: TableColumnDefinition<Template>[] = [
-        createTableColumn<Template>({
-            columnId: 'state',
-            compare: (a, b) => a.state.localeCompare(b.state),
-            renderHeaderCell: () => 'Состояние',
-            renderCell: (item) => item.state,
-        }),
+
         createTableColumn<Template>({
             columnId: 'status',
-            compare: (a, b) => a.status.localeCompare(b.status),
+            compare: (a, b) => a.state_status.localeCompare(b.state_status),
             renderHeaderCell: () => 'Статус',
-            renderCell: (item) => item.status,
+            renderCell: (item) => item.state_status,
         }),
         createTableColumn<Template>({
             columnId: "openAction",
@@ -79,7 +74,7 @@ const TemplatesPage: React.FC = () => {
         <BackButtonLayout title='Шаблоны'>
             <div style={{ marginBottom: '1rem' }}>
                 <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
-                    Add New Template
+                    Создать шаблон
                 </Button>
             </div>
             <DataGrid

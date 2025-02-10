@@ -92,6 +92,7 @@ const Detail: React.FC<{
         "ui:submitButtonOptions": { norender: true },
         "green_api_data": {
             "items": {
+                "ui:title": 'Инстанс',
                 "id": {
                     "ui:widget": "hidden"
                 }
