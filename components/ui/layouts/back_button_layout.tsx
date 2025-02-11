@@ -19,6 +19,7 @@ const useStyles = makeStyles({
         },
     },
     header: {
+        justifyContent: "flex-start",
         display: 'flex',
         alignItems: 'center',
         marginBottom: '20px',
@@ -30,16 +31,17 @@ const useStyles = makeStyles({
     },
 });
 
-export default function BackButtonLayout({ children, title
+export default function BackButtonLayout({ children, title, additionalChildren
 }: {
     children: React.ReactNode,
     title: string
+    additionalChildren?: React.ReactNode | React.JSX.Element,
 }) {
     const styles = useStyles();
     const router = useRouter();
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={additionalChildren ? { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" } : {}}>
             <div className={styles.header}>
                 <Button
                     appearance="subtle"
@@ -51,6 +53,7 @@ export default function BackButtonLayout({ children, title
             </div>
 
             {children}
+            {additionalChildren}
         </div>
     );
 }

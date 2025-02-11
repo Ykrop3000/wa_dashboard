@@ -90,15 +90,9 @@ const OrdersPage: React.FC = () => {
         }),
         createTableColumn<Order>({
             columnId: 'status',
-            compare: (a, b) => a.status.localeCompare(b.status),
+            compare: (a, b) => a.state_status.localeCompare(b.state_status),
             renderHeaderCell: () => 'Статус',
-            renderCell: (item) => item.status,
-        }),
-        createTableColumn<Order>({
-            columnId: 'state',
-            compare: (a, b) => a.state.localeCompare(b.state),
-            renderHeaderCell: () => 'Состояние',
-            renderCell: (item) => item.state,
+            renderCell: (item) => item.state_status,
         }),
         createTableColumn<Order>({
             columnId: 'phone',

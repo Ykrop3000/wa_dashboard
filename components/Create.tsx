@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { withTheme } from '@rjsf/core';
 import { RJSFSchema, FormContextType, WidgetProps } from '@rjsf/utils';
@@ -8,12 +8,15 @@ import { Theme as FluentUIRCTheme } from '@rjsf/fluentui-rc';
 import validator from '@rjsf/validator-ajv8';
 
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
-import DynamicTextarea from '@/components/ui/fields/dynamic_text_area';
+import TemplateTextarea from '@/components/ui/fields/template_text_area';
 import { Card, MessageBar, MessageBarBody } from '@fluentui/react-components';
 
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper';
 import DescriptionFieldTemplateCustom from './templates/DescriptionFieldTemplateCustom';
 import BaseInputTemplateCustom from './templates/BaseInputTemplateCustom';
+// import JsonDataPicker from '@/components/JsonDataPicker'
+
+
 
 const Create: React.FC<{
     title: string,
@@ -26,7 +29,9 @@ const Create: React.FC<{
     const Form = withTheme(FluentUIRCTheme);
     const router = useRouter();
     const [schema, setSchema] = useState<RJSFSchema>({});
+    // const [jsonPickerMod, setJsonPickerMod] = useState<boolean>(false)
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const uiSchema = {
         "ui:options": { label: false },
@@ -40,18 +45,15 @@ const Create: React.FC<{
         "template": {
             "ui:widget": (props: WidgetProps) => {
                 const { value = "", onChange, label, readonly, required } = props;
-
-                return (
-                    <DynamicTextarea
-                        value={value}
-                        onChange={onChange}
-                        label={label}
-                        readonly={readonly}
-                        required={required}
-                    />
-                );
+                return <TemplateTextarea
+                    value={value}
+                    onChange={onChange}
+                    label={label}
+                    textareaRef={textareaRef}
+                    readonly={readonly}
+                    required={required} />;
             },
-        },
+        }
     };
 
     useEffect(() => {
@@ -84,8 +86,40 @@ const Create: React.FC<{
         }
     };
 
+    // const handleInsertText = (text: string) => {
+    //     const textarea = textareaRef.current;
+    //     if (textarea) {
+    //         const start = textarea.selectionStart;
+    //         const end = textarea.selectionEnd;
+    //         console.log(formData)
+    //         const newValue = formData.template.substring(0, start) + text + formData.template.substring(end);
+    //         setFormData({ ...formData, template: newValue });
+    //         setTimeout(() => {
+    //             textarea.setSelectionRange(start + text.length, start + text.length);
+    //             textarea.focus();
+    //         }, 0);
+    //     }
+    // };
+    // const JsonDataPickerComponent = () => <JsonDataPicker onInsert={handleInsertText} />;
+
     return (
-        <BackButtonLayout title={title}>
+        <BackButtonLayout
+            title={title}
+        // additionalChildren={jsonPickerMod ? <JsonDataPickerComponent /> : null}
+
+        >
+            {/* <Toolbar aria-label="toolbar">
+                {schema?.properties?.template &&
+                    <ToolbarButton
+                        aria-label="Template pro mod"
+                        onClick={() => setJsonPickerMod(!jsonPickerMod)}
+                        style={{ marginRight: "5px" }}
+                    >
+                        Template pro mod
+                    </ToolbarButton>
+                }
+            </Toolbar> 
+            */}
             {errorMessages.length > 0 && (
                 <Card
                     appearance="outline"

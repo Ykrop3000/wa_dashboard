@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 
 import {
@@ -24,8 +24,9 @@ import BackButtonLayout from '@/components/ui/layouts/back_button_layout'
 
 import ObjectFieldTemplateWrapper from '@/components/templates/ObjectFieldTemplateWrapper'
 import DescriptionFieldTemplateCustom from '@/components/templates/DescriptionFieldTemplateCustom'
-import DynamicTextarea from './ui/fields/dynamic_text_area';
+import TemplateTextarea from './ui/fields/template_text_area';
 import BaseInputTemplateCustom from '@/components/templates/BaseInputTemplateCustom'
+import JsonDataPicker from '@/components/JsonDataPicker'
 
 import {
     Dialog,
@@ -38,6 +39,7 @@ import {
     Button,
 } from "@fluentui/react-components";
 import { DialogOpenChangeEventHandler } from '@fluentui/react-dialog'
+
 
 const RemoveDialog: React.FC<{
     open: boolean | undefined;
@@ -78,6 +80,7 @@ const Detail: React.FC<{
 }> = ({ title, getSchema, getFormData, setFormData, handleRemove, handleUpdate, formData, toolbar, arrayFieldItemTemplate }) => {
     const params = useParams();
     const [isEditing, setEditing] = useState<boolean>(false)
+    const [jsonPickerMod, setJsonPickerMod] = useState<boolean>(false)
     const [removeDilogOpen, setRemoveDilogOpen] = useState<boolean>(false)
     const [loading, setLoading] = useState(true);
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -85,6 +88,7 @@ const Detail: React.FC<{
     const Form = withTheme(FluentUIRCTheme);
     const [schema, setSchema] = useState<RJSFSchema>({});
     const formRef = createRef<Form>();
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 
     const uiSchema = {
@@ -101,11 +105,11 @@ const Detail: React.FC<{
         "template": {
             "ui:widget": (props: WidgetProps) => {
                 const { value = "", onChange, label, readonly, required } = props;
-
-                return <DynamicTextarea
+                return <TemplateTextarea
                     value={value}
                     onChange={onChange}
                     label={label}
+                    textareaRef={textareaRef}
                     readonly={readonly}
                     required={required} />;
             },
@@ -163,7 +167,22 @@ const Detail: React.FC<{
 
     }
 
+    const handleInsertText = (text: string) => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const newValue = formData.template.substring(0, start) + text + formData.template.substring(end);
+            setFormData({ ...formData, template: newValue });
+            setTimeout(() => {
+                textarea.setSelectionRange(start + text.length, start + text.length);
+                textarea.focus();
+            }, 0);
+        }
+    };
+    const JsonDataPickerComponent = () => <JsonDataPicker onInsert={handleInsertText} />;
 
+    console.log(schema)
     if (!formData) return <Text>not found</Text>;
 
     return (
@@ -174,10 +193,22 @@ const Detail: React.FC<{
                 handleRemove={async () => await handleRemove()}
             />
 
-            <BackButtonLayout title={title}>
+            <BackButtonLayout
+                title={title}
+                additionalChildren={jsonPickerMod ? <JsonDataPickerComponent /> : null}
+            >
                 {loading && <Spinner />}
                 {!loading && <>
                     <Toolbar aria-label="toolbar">
+                        {schema?.properties?.template &&
+                            <ToolbarButton
+                                aria-label="Template pro mod"
+                                onClick={() => setJsonPickerMod(!jsonPickerMod)}
+                                style={{ marginRight: "5px" }}
+                            >
+                                Template pro mod
+                            </ToolbarButton>
+                        }
                         <ToolbarButton
                             aria-label="Edit"
                             appearance="primary"

@@ -24,6 +24,7 @@
     "react": ">=16.14.0 <19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": ">=16.14.0 <19.0.0",
+    "react-json-path-picker": "^1.0.5",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
