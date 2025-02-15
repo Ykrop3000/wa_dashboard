@@ -13,6 +13,8 @@ const TemplateTextarea: React.FC<{
 
     const [shortcuts] = useState([
         { label: "Имя клиента", text: "{{ customer.firstName or '-' }}" },
+        { label: "Товар", text: "{% for product in products %}{{ product.attributes.name or '-' }} {% endfor %}" },
+        { label: "Номер заказа", text: "{{ code or '-' }}" },
         { label: "Планируемая дата доставки", text: "{{plannedDeliveryDate}}" },
         { label: "Ссылки на отзыв", text: "{% for product in products %}https://kaspi.kz/shop/review/productreview?orderCode={{code}}=&productCode={{product.attributes.code}}&rating=5{% endfor %}" },
         { label: "Сумма заказа", text: "{{totalPrice}}" },
