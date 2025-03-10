@@ -113,6 +113,12 @@ const OrdersPage: React.FC = () => {
             renderCell: (item) => item.is_sended ? 'Yes' : 'No',
         }),
         createTableColumn<Order>({
+            columnId: 'has_review',
+            compare: (a, b) => (!!a.review_id === !!b.review_id ? 0 : a.review_id ? 1 : -1),
+            renderHeaderCell: () => 'Отзыв?',
+            renderCell: (item) => item.review_id ? 'Yes' : 'No',
+        }),
+        createTableColumn<Order>({
             columnId: 'created_at',
             compare: (a, b) => (a.created_at?.getTime() || 0) - (b.created_at?.getTime() || 0),
             renderHeaderCell: () => 'Создано в',
