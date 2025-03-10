@@ -11,5 +11,6 @@ export interface Order {
     is_sended?: boolean
     created_at?: Date;
 
+    review_id?: number
     customer?: Customer
 } 
