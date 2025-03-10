@@ -13,6 +13,7 @@ import {
     createTableColumn,
     Button,
     Input,
+    Badge,
 } from '@fluentui/react-components';
 import { apiManager } from '@/services';
 import { Order } from '@/types/order';
@@ -110,13 +111,27 @@ const OrdersPage: React.FC = () => {
             columnId: 'is_sended',
             compare: (a, b) => (a.is_sended === b.is_sended ? 0 : a.is_sended ? 1 : -1),
             renderHeaderCell: () => 'Отправлено?',
-            renderCell: (item) => item.is_sended ? 'Yes' : 'No',
+            renderCell: (item) => (
+                <Badge
+                    appearance="filled"
+                    color={item.is_sended ? 'success' : 'danger'}
+                >
+                    {item.is_sended ? 'Yes' : 'No'}
+                </Badge>
+            )
         }),
         createTableColumn<Order>({
             columnId: 'has_review',
             compare: (a, b) => (!!a.review_id === !!b.review_id ? 0 : a.review_id ? 1 : -1),
             renderHeaderCell: () => 'Отзыв?',
-            renderCell: (item) => item.review_id ? 'Yes' : 'No',
+            renderCell: (item) => (
+                <Badge
+                    appearance="filled"
+                    color={item.review_id ? 'success' : 'danger'}
+                >
+                    {item.review_id ? 'Yes' : 'No'}
+                </Badge>
+            )
         }),
         createTableColumn<Order>({
             columnId: 'created_at',
