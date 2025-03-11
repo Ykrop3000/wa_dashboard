@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fluentui/react": "^8.122.11",
     "@fluentui/react-components": "^9.56.1",
     "@fluentui/react-datepicker-compat": "^0.4.60",
     "@fluentui/react-icons": "^2.0.265",

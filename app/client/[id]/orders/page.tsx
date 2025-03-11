@@ -14,7 +14,10 @@ import {
     Button,
     Input,
     Badge,
+    Select,
+    Label,
 } from '@fluentui/react-components';
+import { Stack } from '@fluentui/react'
 import { apiManager } from '@/services';
 import { Order } from '@/types/order';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
@@ -29,13 +32,25 @@ const OrdersPage: React.FC = () => {
     const [itemsPerPage] = useState(10); // Set the number of items per page
     const [searchQuery, setSearchQuery] = useState(''); // New state for search query
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery); // State for debounced search query
+    const [statusFilter, setStatusFilter] = useState<string>(''); // New state for status filter
+
+    // Status options based on the StatusGroup enum
+    const statusOptions = [
+        { key: '', value: '', text: 'Все статусы' },
+        { key: 'delivery', value: 'Доставка', text: 'Доставка' },
+        { key: 'delivery_kaspi', value: 'Доставка каспи', text: 'Доставка каспи' },
+        { key: 'delivery_pickup', value: 'Доставка самовывоз', text: 'Доставка самовывоз' },
+        { key: 'completed', value: 'Выдан', text: 'Выдан' },
+        { key: 'canceled', value: 'Отменен', text: 'Отменен' },
+        { key: 'returned', value: 'Возвращен', text: 'Возвращен' },
+    ];
 
     useEffect(() => {
         console.log("fetchOrders")
         if (id) {
             fetchOrders();
         }
-    }, [id, currentPage, debouncedSearchQuery]); // Add currentPage to the dependency array
+    }, [id, currentPage, debouncedSearchQuery, statusFilter]); // Add statusFilter to dependencies
 
     useEffect(() => {
         console.log("searchQuery")
@@ -56,14 +71,17 @@ const OrdersPage: React.FC = () => {
                     Number(id),
                     (currentPage - 1) * itemsPerPage,
                     itemsPerPage,
-                    searchParams.get('group'));
-                setOrders(orders => [...orders, ...fetchedOrders]);
+                    searchParams.get('group'),
+                    statusFilter); // Pass status filter to API
+                setOrders(prevOrders => currentPage === 1 ? fetchedOrders : [...prevOrders, ...fetchedOrders]);
             } else {
-                const fetchedOrders = await apiManager.getOrderByCode(Number(id),
-                    debouncedSearchQuery, (currentPage - 1) * itemsPerPage, itemsPerPage); // Pass pagination parameters
-                setOrders(fetchedOrders);
+                const fetchedOrders = await apiManager.getOrderByCode(
+                    Number(id),
+                    debouncedSearchQuery,
+                    (currentPage - 1) * itemsPerPage,
+                    itemsPerPage);
+                setOrders(prevOrders => currentPage === 1 ? fetchedOrders : [...prevOrders, ...fetchedOrders]);
             }
-
         } catch (error) {
             console.error('Failed to fetch orders:', error);
         } finally {
@@ -153,16 +171,33 @@ const OrdersPage: React.FC = () => {
 
     return (
         <BackButtonLayout title='Заказы'>
-            <div style={{ marginBottom: '1rem' }}>
-                <Input
-                    type="text"
-                    placeholder="Поиск по коду."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
-                    onKeyDown={handleKeyDown} // Handle Enter key press
-                    style={{ marginRight: '1rem' }}
-                />
-            </div>
+            <Stack horizontal wrap tokens={{ childrenGap: 16 }} style={{ marginBottom: '16px' }}>
+                <Stack tokens={{ childrenGap: 8 }}>
+                    <Label htmlFor="search-input">Поиск по коду</Label>
+                    <Input
+                        id="search-input"
+                        type="text"
+                        placeholder="Код заказа"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </Stack>
+                <Stack tokens={{ childrenGap: 8 }}>
+                    <Label htmlFor="status-filter">Статус заказа</Label>
+                    <Select
+                        id="status-filter"
+                        value={statusFilter}
+                        onChange={(e, data) => setStatusFilter(data.value)}
+                    >
+                        {statusOptions.map(option => (
+                            <option key={option.key} value={option.value}>
+                                {option.text}
+                            </option>
+                        ))}
+                    </Select>
+                </Stack>
+            </Stack>
             <div style={{ overflowX: 'auto', width: '100%' }}> {/* Mobile style container for DataGrid */}
                 <DataGrid
                     resizableColumns={true}

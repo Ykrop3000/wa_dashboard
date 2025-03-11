@@ -149,6 +149,10 @@ export class ApiManager {
         const response = await this.api.post<Template>(`/users/${userId}/templates/`, templateData);
         return response.data;
     }
+    async previewTemplate(userId: number, templateData: FormContextType): Promise<string> {
+        const response = await this.api.post(`/users/${userId}/templates/preview`, templateData);
+        return response.data.result;
+    }
     async deleteTemplate(templateId: number): Promise<Template> {
         const response = await this.api.delete<Template>(`/templates/${templateId}`);
         return response.data;
@@ -175,9 +179,10 @@ export class ApiManager {
         return response.data;
     }
 
-    async getOrders(userId: number, skip = 0, limit = 100, group: number | string | null = null): Promise<Order[]> {
+    async getOrders(userId: number, skip = 0, limit = 100, group: number | string | null = null, status: string | null = null): Promise<Order[]> {
         let url = `/orders/?skip=${skip}&limit=${limit}&user_id=${userId}`
         url = group ? url + `&group_id=${group}` : url
+        url = status ? url + `&status=${status}` : url
         const response = await this.api.get<Order[]>(url);
         return response.data;
     }

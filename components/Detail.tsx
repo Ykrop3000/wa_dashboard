@@ -200,15 +200,7 @@ const Detail: React.FC<{
                 {loading && <Spinner />}
                 {!loading && <>
                     <Toolbar aria-label="toolbar">
-                        {schema?.properties?.template &&
-                            <ToolbarButton
-                                aria-label="Template pro mod"
-                                onClick={() => setJsonPickerMod(!jsonPickerMod)}
-                                style={{ marginRight: "5px" }}
-                            >
-                                Template pro mod
-                            </ToolbarButton>
-                        }
+
                         <ToolbarButton
                             aria-label="Edit"
                             appearance="primary"
@@ -228,6 +220,15 @@ const Detail: React.FC<{
                                 onClick={() => formRef.current?.submit()}
                             >
                                 Сохранить
+                            </ToolbarButton>
+                        }
+                        {schema?.properties?.template &&
+                            <ToolbarButton
+                                aria-label="Template pro mod"
+                                onClick={() => setJsonPickerMod(!jsonPickerMod)}
+                                style={{ marginRight: "5px" }}
+                            >
+                                Template pro mod
                             </ToolbarButton>
                         }
                         {toolbar}

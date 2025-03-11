@@ -6,7 +6,8 @@ import { useParams } from 'next/navigation';
 import { ChartData, Chart as ChartJS, registerables } from 'chart.js';
 import { Chart } from "react-chartjs-2";
 import { SelectionEvents, OptionOnSelectData } from '@fluentui/react-components';
-import { Card, CardHeader, Field, makeStyles, Button, CardFooter, Text, Dropdown, Option } from '@fluentui/react-components';
+import { Stack } from '@fluentui/react'
+import { Card, CardHeader, Field, makeStyles, Button, Text, Dropdown, Option } from '@fluentui/react-components';
 import { DatePicker } from "@fluentui/react-datepicker-compat";
 
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
@@ -201,8 +202,7 @@ const StatisticsPage: React.FC = () => {
 
     return (
         <BackButtonLayout title={"Статистика"}>
-            <Button onClick={handleDownloadOrders}>Download</Button>
-            <Card orientation="horizontal" className={styles.section}>
+            <Stack horizontal className={styles.section} style={{ alignItems: "flex-end", gap: "12px" }}>
                 <Field label="Статус заказа">
                     <Dropdown multiselect={true} defaultSelectedOptions={["completed"]} onOptionSelect={handleStatusChange}>
                         {Object.entries(GroupStatuses).map(([key, value]) => (
@@ -224,10 +224,10 @@ const StatisticsPage: React.FC = () => {
                         onSelectDate={handleEndDateChange}
                     />
                 </Field>
-                <CardFooter>
-                    <Button onClick={setParams}>Применить</Button>
-                </CardFooter>
-            </Card>
+                <Button onClick={setParams}>Применить</Button>
+                <Button onClick={handleDownloadOrders}>Download</Button>
+
+            </Stack>
 
             <Card className={styles.section} style={{ width: 'fit-content', padding: '24px' }}>
                 <CardHeader>Заказы общие, за период (свод)</CardHeader>
