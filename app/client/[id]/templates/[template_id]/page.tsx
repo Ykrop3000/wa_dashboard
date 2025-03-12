@@ -28,7 +28,7 @@ export default function TemplateDetail() {
 
     const openModal = async () => {
         setIsModalOpen(true);
-        const preview = await apiManager.previewTemplate(Number(params.template_id), formData)
+        const preview = await apiManager.previewTemplate(Number(params.id), formData)
         setPreviewData(preview)
 
     }
