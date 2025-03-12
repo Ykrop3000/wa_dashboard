@@ -66,7 +66,7 @@ export default function TemplateDetail() {
                             <pre>{previewData}</pre>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={closeModal}>Close</Button>
+                            <Button onClick={closeModal}>Закрыть</Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>
