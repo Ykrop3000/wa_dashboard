@@ -138,7 +138,7 @@ const ClientDashboard: React.FC = () => {
                     appearance="filled"
                     color={item.count_messages_sent === item.limit_messages_per_day ? 'danger' : 'informative'}
                 >
-                    {item.count_messages_sent}
+                    {item.count_messages_sent}/{item.limit_messages_per_day}
                 </Badge>
             ),
         }),
