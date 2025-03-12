@@ -52,7 +52,7 @@ export default function TemplateDetail() {
                     onClick={openModal}
                     style={{ marginRight: "5px" }}
                 >
-                    Preview
+                    Предпросмотр
                 </ToolbarButton>}
             />
 
@@ -60,7 +60,7 @@ export default function TemplateDetail() {
                 <DialogSurface>
 
                     <DialogBody>
-                        <DialogTitle>Preview</DialogTitle>
+                        <DialogTitle>Предпросмотр</DialogTitle>
                         <DialogContent>
                             {!previewData && <Spinner />}
                             <pre>{previewData}</pre>
