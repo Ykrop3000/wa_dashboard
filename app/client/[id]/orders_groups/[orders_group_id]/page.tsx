@@ -128,13 +128,21 @@ export default function OrdersGroupDetail() {
                 handleUpdate={handleUpdate}
                 formData={formData}
                 toolbar={
-                    <ToolbarButton
-                        aria-label="Send"
-                        appearance="primary"
-                        onClick={send}
-                    >
-                        Отправить заказы
-                    </ToolbarButton>
+                    <>
+                        <ToolbarButton
+                            aria-label="Send"
+                            appearance="primary"
+                            onClick={send}
+                        >
+                            Отправить заказы
+                        </ToolbarButton>
+                        <ToolbarButton
+                            aria-label="Send"
+                            onClick={() => router.push(`/client/${params.id}/orders?group=${params.orders_group_id}`)}
+                        >
+                            Заказы
+                        </ToolbarButton>
+                    </>
                 }
             />
         </>

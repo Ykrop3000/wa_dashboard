@@ -16,6 +16,7 @@ import {
     Badge,
     Select,
     Label,
+    Spinner,
 } from '@fluentui/react-components';
 import { Stack } from '@fluentui/react'
 import { apiManager } from '@/services';
@@ -165,72 +166,71 @@ const OrdersPage: React.FC = () => {
         // Add more columns as needed for other order fields
     ];
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <BackButtonLayout title='Заказы'>
-            <Stack horizontal wrap tokens={{ childrenGap: 16 }} style={{ marginBottom: '16px' }}>
-                <Stack tokens={{ childrenGap: 8 }}>
-                    <Label htmlFor="search-input">Поиск по коду</Label>
-                    <Input
-                        id="search-input"
-                        type="text"
-                        placeholder="Код заказа"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
+            {loading && <Spinner />}
+            {!loading && <>
+                <Stack horizontal wrap tokens={{ childrenGap: 16 }} style={{ marginBottom: '16px' }}>
+                    <Stack tokens={{ childrenGap: 8 }}>
+                        <Label htmlFor="search-input">Поиск по коду</Label>
+                        <Input
+                            id="search-input"
+                            type="text"
+                            placeholder="Код заказа"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                    </Stack>
+                    <Stack tokens={{ childrenGap: 8 }}>
+                        <Label htmlFor="status-filter">Статус заказа</Label>
+                        <Select
+                            id="status-filter"
+                            value={statusFilter}
+                            onChange={(e, data) => setStatusFilter(data.value)}
+                        >
+                            {statusOptions.map(option => (
+                                <option key={option.key} value={option.value}>
+                                    {option.text}
+                                </option>
+                            ))}
+                        </Select>
+                    </Stack>
                 </Stack>
-                <Stack tokens={{ childrenGap: 8 }}>
-                    <Label htmlFor="status-filter">Статус заказа</Label>
-                    <Select
-                        id="status-filter"
-                        value={statusFilter}
-                        onChange={(e, data) => setStatusFilter(data.value)}
+                <div style={{ overflowX: 'auto', width: '100%' }}> {/* Mobile style container for DataGrid */}
+                    <DataGrid
+                        resizableColumns={true}
+                        items={orders}
+                        columns={columns}
+                        sortable
+                        style={{ minWidth: '600px' }} // Ensure minimum width for DataGrid
                     >
-                        {statusOptions.map(option => (
-                            <option key={option.key} value={option.value}>
-                                {option.text}
-                            </option>
-                        ))}
-                    </Select>
-                </Stack>
-            </Stack>
-            <div style={{ overflowX: 'auto', width: '100%' }}> {/* Mobile style container for DataGrid */}
-                <DataGrid
-                    resizableColumns={true}
-                    items={orders}
-                    columns={columns}
-                    sortable
-                    style={{ minWidth: '600px' }} // Ensure minimum width for DataGrid
-                >
-                    <DataGridHeader>
-                        <DataGridRow>
-                            {({ renderHeaderCell }) => (
-                                <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-                            )}
-                        </DataGridRow>
-                    </DataGridHeader>
-                    <DataGridBody<Order>>
-                        {({ item, rowId }) => (
-                            <DataGridRow<Order>
-                                key={rowId}
-                            >
-                                {({ renderCell }) => (
-                                    <DataGridCell>{renderCell(item)}</DataGridCell>
+                        <DataGridHeader>
+                            <DataGridRow>
+                                {({ renderHeaderCell }) => (
+                                    <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
                                 )}
                             </DataGridRow>
-                        )}
-                    </DataGridBody>
-                </DataGrid>
-            </div>
-            <div style={{ textAlign: 'center', paddingTop: '12px' }}>
-                <Button onClick={() => loadNextPage()}>
-                    Загрузить больше
-                </Button>
-            </div>
+                        </DataGridHeader>
+                        <DataGridBody<Order>>
+                            {({ item, rowId }) => (
+                                <DataGridRow<Order>
+                                    key={rowId}
+                                >
+                                    {({ renderCell }) => (
+                                        <DataGridCell>{renderCell(item)}</DataGridCell>
+                                    )}
+                                </DataGridRow>
+                            )}
+                        </DataGridBody>
+                    </DataGrid>
+                </div>
+                <div style={{ textAlign: 'center', paddingTop: '12px' }}>
+                    <Button onClick={() => loadNextPage()}>
+                        Загрузить больше
+                    </Button>
+                </div>
+            </>}
         </BackButtonLayout>
     );
 };
