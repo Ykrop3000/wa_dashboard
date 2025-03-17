@@ -14,7 +14,7 @@ const OrdersPage: React.FC = () => {
 
 
     return (
-        <BackButtonLayout title='Заказы'>
+        <BackButtonLayout title={group ? `Заказы в группе ${group}` : 'Заказы'}>
             <OrdersDashboard
                 group_id={group ? Number(group) : undefined}
                 user_id={Number(id)} />
