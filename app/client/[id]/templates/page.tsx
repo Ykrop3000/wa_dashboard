@@ -12,6 +12,7 @@ import {
     TableColumnDefinition,
     createTableColumn,
     Card,
+    Stack,
     Button,
     Spinner,
 } from '@fluentui/react-components';
@@ -73,9 +74,11 @@ const TemplatesPage: React.FC = () => {
     return (
         <BackButtonLayout title='Шаблоны'>
             <Card style={{ marginBottom: '1rem' }}>
-                <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
-                    Создать шаблон
-                </Button>
+                <Stack>
+                    <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
+                        Создать шаблон
+                    </Button>
+                </Stack>
             </Card>
             {loading && <Spinner />}
             {!loading &&
