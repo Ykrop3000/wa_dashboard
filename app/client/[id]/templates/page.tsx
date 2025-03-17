@@ -12,10 +12,11 @@ import {
     TableColumnDefinition,
     createTableColumn,
     Card,
-    Stack,
     Button,
     Spinner,
 } from '@fluentui/react-components';
+import { Stack } from '@fluentui/react'
+
 import { apiManager } from '@/services';
 import { Template } from '@/types/template';
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
