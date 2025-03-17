@@ -10,6 +10,7 @@ import { BillingPlan } from '@/types/billing_plan';
 import { TaskStatus } from '@/types/task'
 import { AvgPrice, OrdersCountPrice } from '@/types/statistic';
 import { Customer } from '@/types/customer';
+import { Review } from '@/types/review';
 
 export class ApiManager {
     private api: AxiosInstance;
@@ -179,10 +180,17 @@ export class ApiManager {
         return response.data;
     }
 
-    async getOrders(userId: number, skip = 0, limit = 100, group: number | string | null = null, status: string | null = null): Promise<Order[]> {
+    async getOrders(userId: number,
+        skip = 0,
+        limit = 100,
+        group: number | string | null = null,
+        customer: number | string | null = null,
+        status: string | null = null): Promise<Order[]> {
         let url = `/orders/?skip=${skip}&limit=${limit}&user_id=${userId}`
         url = group ? url + `&group_id=${group}` : url
         url = status ? url + `&status=${status}` : url
+        url = customer ? url + `&customer_id=${customer}` : url
+
         const response = await this.api.get<Order[]>(url);
         return response.data;
     }
@@ -330,4 +338,32 @@ export class ApiManager {
         }, { responseType: 'arraybuffer' });
         return response.data
     }
+
+
+    // Review endpoints
+    async getReviews(userId: number, skip = 0, limit = 100, customer: number | null | string = null): Promise<Review[]> {
+        let url = `/reviews/?skip=${skip}&limit=${limit}&user_id=${userId}`
+        url = customer ? url + `&customer_id=${customer}` : url
+
+        const response = await this.api.get<Review[]>(url);
+        return response.data;
+    }
+
+    // Cusomer endpoints
+    async getCustomers(userId: number, skip = 0, limit = 100): Promise<Customer[]> {
+        let url = `/customers/?skip=${skip}&limit=${limit}&user_id=${userId}`
+        const response = await this.api.get<Customer[]>(url);
+        return response.data;
+    }
+    async getCustomer(customerId: number): Promise<Customer> {
+        let url = `/customers/${customerId}`
+        const response = await this.api.get<Customer>(url);
+        return response.data;
+    }
+    async getCustomersAndStat(userId: number, skip = 0, limit = 100): Promise<Customer[]> {
+        let url = `/customers/stats/?skip=${skip}&limit=${limit}&user_id=${userId}`
+        const response = await this.api.get<Customer[]>(url);
+        return response.data;
+    }
+
 }

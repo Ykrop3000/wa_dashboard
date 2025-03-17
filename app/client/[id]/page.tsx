@@ -82,6 +82,12 @@ export default function UserDetail() {
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/orders`)}>
                                     Заказы
                                 </MenuItem>
+                                <MenuItem onClick={() => router.push(`/client/${params.id}/reviews`)}>
+                                    Отзывы
+                                </MenuItem>
+                                <MenuItem onClick={() => router.push(`/client/${params.id}/customers`)}>
+                                    Клиенты
+                                </MenuItem>
                                 <MenuItem onClick={() => router.push(`/client/${params.id}/templates`)}>
                                     Шаблоны
                                 </MenuItem>
