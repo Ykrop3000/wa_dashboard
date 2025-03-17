@@ -76,7 +76,10 @@ const TemplatesPage: React.FC = () => {
         <BackButtonLayout title='Шаблоны'>
             <Card style={{ marginBottom: '1rem' }}>
                 <Stack>
-                    <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
+                    <Button
+                        appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}
+                        style={{ width: 'fit-content' }}
+                    >
                         Создать шаблон
                     </Button>
                 </Stack>
