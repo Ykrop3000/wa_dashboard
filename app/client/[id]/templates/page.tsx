@@ -11,6 +11,7 @@ import {
     DataGridBody,
     TableColumnDefinition,
     createTableColumn,
+    Card,
     Button,
     Spinner,
 } from '@fluentui/react-components';
@@ -71,37 +72,39 @@ const TemplatesPage: React.FC = () => {
 
     return (
         <BackButtonLayout title='Шаблоны'>
-            <div style={{ marginBottom: '1rem' }}>
+            <Card style={{ marginBottom: '1rem' }}>
                 <Button appearance="primary" onClick={() => router.push(`/client/${id}/templates/create`)}>
                     Создать шаблон
                 </Button>
-            </div>
+            </Card>
             {loading && <Spinner />}
             {!loading &&
-                <DataGrid
-                    items={templates}
-                    columns={columns}
-                    sortable
-                >
-                    <DataGridHeader>
-                        <DataGridRow>
-                            {({ renderHeaderCell }) => (
-                                <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
-                            )}
-                        </DataGridRow>
-                    </DataGridHeader>
-                    <DataGridBody<Template>>
-                        {({ item, rowId }) => (
-                            <DataGridRow<Template>
-                                key={rowId}
-                            >
-                                {({ renderCell }) => (
-                                    <DataGridCell>{renderCell(item)}</DataGridCell>
+                <Card>
+                    <DataGrid
+                        items={templates}
+                        columns={columns}
+                        sortable
+                    >
+                        <DataGridHeader>
+                            <DataGridRow>
+                                {({ renderHeaderCell }) => (
+                                    <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
                                 )}
                             </DataGridRow>
-                        )}
-                    </DataGridBody>
-                </DataGrid>
+                        </DataGridHeader>
+                        <DataGridBody<Template>>
+                            {({ item, rowId }) => (
+                                <DataGridRow<Template>
+                                    key={rowId}
+                                >
+                                    {({ renderCell }) => (
+                                        <DataGridCell>{renderCell(item)}</DataGridCell>
+                                    )}
+                                </DataGridRow>
+                            )}
+                        </DataGridBody>
+                    </DataGrid>
+                </Card>
             }
         </BackButtonLayout>
     );
