@@ -9,6 +9,7 @@ import {
     Spinner,
     Caption1,
     Divider,
+    Avatar,
 } from '@fluentui/react-components';
 
 import BackButtonLayout from '@/components/ui/layouts/back_button_layout';
@@ -57,6 +58,7 @@ const CustomerPage: React.FC = () => {
                 <>
                     <Card>
                         <CardHeader
+                            image={<Avatar aria-label="Guest" />}
                             header={<b>{customer.first_name} {customer.last_name}</b>}
                             description={<Caption1>Телефон: {customer.phone}</Caption1>}
                         />
