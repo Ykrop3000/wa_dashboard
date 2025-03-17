@@ -113,7 +113,19 @@ const Detail: React.FC<{
                     readonly={readonly}
                     required={required} />;
             },
-        }
+            "template": {
+                "ui:widget": (props: WidgetProps) => {
+                    const { value = "", onChange, label, readonly, required } = props;
+                    return <TemplateTextarea
+                        value={value}
+                        onChange={onChange}
+                        label={label}
+                        textareaRef={textareaRef}
+                        readonly={readonly}
+                        required={required} />;
+                },
+            }
+        },
     };
 
     useEffect(() => {
