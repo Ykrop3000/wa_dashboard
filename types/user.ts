@@ -33,6 +33,8 @@ export interface User {
     // Additional fields
     limit_messages_per_day?: number;
     count_messages_sent?: number;
+    limit_new_chats_per_day?: number;
+    count_new_chats?: number;
 
     // Relationships
     message_templates?: Template[];

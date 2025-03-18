@@ -143,6 +143,19 @@ const ClientDashboard: React.FC = () => {
             ),
         }),
         createTableColumn<User>({
+            columnId: 'count_new_chats',
+            compare: (a, b) => (a.count_new_chats ?? 0) - (b.count_new_chats ?? 0),
+            renderHeaderCell: () => 'Чатов сегодня',
+            renderCell: (item) => (
+                <Badge
+                    appearance="filled"
+                    color={item.count_new_chats === item.limit_new_chats_per_day ? 'danger' : 'informative'}
+                >
+                    {item.limit_new_chats_per_day ? `${(item.count_new_chats ?? 0)} / ${item.limit_new_chats_per_day}` : (item.count_new_chats ?? 0).toString()}
+                </Badge>
+            ),
+        }),
+        createTableColumn<User>({
             columnId: 'billing_plan_end',
             compare: (a, b) => (a.billing_plan_end?.getTime() || 0) - (b.billing_plan_end?.getTime() || 0),
             renderHeaderCell: () => 'Конец оплаты',
